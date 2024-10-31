@@ -4,5 +4,161 @@
         <name>Api_OsteoHealth_Tesis</name>
     </assembly>
     <members>
+        <member name="M:Api_OsteoHealth_Tesis.Code.Login.ValidateLogin(System.String,System.String,System.Int32)">
+            <summary>
+            Valida el login de un usuario
+            </summary>
+            <param name="username"></param>
+            <param name="password"></param>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Api_OsteoHealth_Tesis.Models.Paciente">
+            <summary>
+            Clase que representa a un paciente
+            </summary>
+        </member>
+        <member name="P:Api_OsteoHealth_Tesis.Models.Paciente.Dni">
+            <summary>
+            Documento del paciente
+            </summary>
+        </member>
+        <member name="P:Api_OsteoHealth_Tesis.Models.Paciente.Nombre">
+            <summary>
+            Nombre del paciente
+            </summary>
+        </member>
+        <member name="P:Api_OsteoHealth_Tesis.Models.Paciente.Apellido">
+            <summary>
+            Apellido del paciente
+            </summary>
+        </member>
+        <member name="P:Api_OsteoHealth_Tesis.Models.Paciente.FechaIngreso">
+            <summary>
+            Fecha de ingreso del paciente
+            </summary>
+        </member>
+        <member name="P:Api_OsteoHealth_Tesis.Models.Paciente.FechaNacimiento">
+            <summary>
+            Fecha de nacimiento del paciente
+            </summary>
+        </member>
+        <member name="P:Api_OsteoHealth_Tesis.Models.Paciente.Edad">
+            <summary>
+            Edad del paciente
+            </summary>
+        </member>
+        <member name="P:Api_OsteoHealth_Tesis.Models.Paciente.Estado">
+            <summary>
+            Estado del paciente
+            </summary>
+        </member>
+        <member name="P:Api_OsteoHealth_Tesis.Models.Paciente.Peso">
+            <summary>
+            Peso del paciente
+            </summary>
+        </member>
+        <member name="P:Api_OsteoHealth_Tesis.Models.Paciente.Altura">
+            <summary>
+            Altura del paciente
+            </summary>
+        </member>
+        <member name="P:Api_OsteoHealth_Tesis.Models.Paciente.Sexo">
+            <summary>
+            Sexo del paciente
+            </summary>
+        </member>
+        <member name="P:Api_OsteoHealth_Tesis.Models.Paciente.Telefono">
+            <summary>
+            Teléfono del paciente
+            </summary>
+        </member>
+        <member name="P:Api_OsteoHealth_Tesis.Models.Paciente.Email">
+            <summary>
+            Email del paciente
+            </summary>
+        </member>
+        <member name="P:Api_OsteoHealth_Tesis.Models.Paciente.IdObraSocial">
+            <summary>
+            ID de la obra social del paciente
+            </summary>
+        </member>
+        <member name="P:Api_OsteoHealth_Tesis.Models.Paciente.IdImagen">
+            <summary>
+            ID de la imagen del paciente
+            </summary>
+        </member>
+        <member name="P:Api_OsteoHealth_Tesis.Models.Paciente.IdUbicacion">
+            <summary>
+            ID de la ubicación del paciente
+            </summary>
+        </member>
+        <member name="P:Api_OsteoHealth_Tesis.Models.Paciente.IdInformacionAdicional">
+            <summary>
+            ID de la información adicional del paciente
+            </summary>
+        </member>
+        <member name="P:Api_OsteoHealth_Tesis.Models.Paciente.IdEnfermedadHereditaria">
+            <summary>
+            ID de la enfermedad hereditaria del paciente
+            </summary>
+        </member>
+        <member name="P:Api_OsteoHealth_Tesis.Models.Paciente.IdAntecedeToco">
+            <summary>
+            ID de antecedentes tocoginecológicos del paciente
+            </summary>
+        </member>
+        <member name="T:Api_OsteoHealth_Tesis.Startup">
+            <summary>
+            Metodo de carga de configuracion
+            </summary>
+        </member>
+        <member name="M:Api_OsteoHealth_Tesis.Startup.#ctor(Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            inicio configuracion
+            </summary>
+            <param name="configuration"></param>
+        </member>
+        <member name="P:Api_OsteoHealth_Tesis.Startup.Configuration">
+            <summary>
+            configuracion
+            </summary>
+        </member>
+        <member name="M:Api_OsteoHealth_Tesis.Startup.ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            This method gets called by the runtime. Use this method to add services to the container.
+            </summary>
+            <param name="services"></param>
+        </member>
+        <member name="M:Api_OsteoHealth_Tesis.Startup.Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.AspNetCore.Hosting.IWebHostEnvironment)">
+            <summary>
+            This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+            </summary>
+            <param name="app"></param>
+            <param name="env"></param>
+        </member>
+        <member name="T:Program">
+            <summary>
+            Clase con el metodo main
+            </summary>
+        </member>
+        <member name="F:Program.ServiceProvider">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Program.Main(System.String[])">
+            <summary>
+            
+            </summary>
+            <param name="args"></param>
+        </member>
+        <member name="M:Program.CreateWebHostBuilder(System.String[])">
+            <summary>
+            
+            </summary>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
     </members>
 </doc>
