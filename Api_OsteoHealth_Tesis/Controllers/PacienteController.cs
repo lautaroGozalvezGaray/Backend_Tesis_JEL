@@ -16,13 +16,12 @@ namespace Api_OsteoHealth_Tesis.Controllers
     [ApiController]
     public class PacienteController:ControllerBase
     {
+        private readonly IPacienteBL _pacienteBL;
         /// <summary>
         /// El constructor del controlador recibe una instancia de PacienteBL a través de la inyección de dependencias. 
         /// Esto permite que el controlador utilice los métodos de PacienteBL para realizar operaciones como obtener,
         /// insertar, actualizar y eliminar pacientes.
         /// </summary>
-        private readonly IPacienteBL _pacienteBL;
-
         public PacienteController(IPacienteBL pacienteBL)
         {
             _pacienteBL = pacienteBL;
@@ -32,7 +31,7 @@ namespace Api_OsteoHealth_Tesis.Controllers
         /// Endpoint para obtener todos los pacientes
         /// </summary>
         /// <returns>Lista de pacientes</returns>
-        [HttpGet("pacientes")]
+        [HttpGet]
         public async Task<ActionResult<List<Paciente>>> GetPacientes()
         {
             var pacientes = await _pacienteBL.GetPacientes();

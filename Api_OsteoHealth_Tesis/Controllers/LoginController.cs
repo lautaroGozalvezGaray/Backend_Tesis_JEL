@@ -1,5 +1,5 @@
 ﻿using Api_OsteoHealth_Tesis.Code;
-using Api_OsteoHealth_Tesis.Models;
+using Api_OsteoHealth_Tesis.Repository;
 using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,6 +13,18 @@ namespace Api_OsteoHealth_Tesis.Controllers
     [ApiController]
     public class LoginController : ControllerBase
     {
+
+        private readonly ILoginBL _loginBL;
+        /// <summary>
+        /// El constructor del controlador recibe una instancia de PacienteBL a través de la inyección de dependencias. 
+        /// Esto permite que el controlador utilice los métodos de PacienteBL para realizar operaciones como obtener,
+        /// insertar, actualizar y eliminar pacientes.
+        /// </summary>
+        public LoginController(ILoginBL loginBL)
+        {
+            _loginBL = loginBL;
+        }
+
         /// <summary>
         /// Metodo para validar el login
         /// </summary>
