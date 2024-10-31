@@ -1,4 +1,5 @@
 ﻿using Api_OsteoHealth_Tesis.Models;
+using Api_OsteoHealth_Tesis.Repository;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 
 namespace Api_OsteoHealth_Tesis.Code
@@ -6,7 +7,7 @@ namespace Api_OsteoHealth_Tesis.Code
     /// <summary>
     /// Clase con metodos para login
     /// </summary>
-    public class LoginBL
+    public class LoginBL:ILoginBL
     {
         private readonly DbOsteoHealthContext _context;
 

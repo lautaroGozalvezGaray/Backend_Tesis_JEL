@@ -1,4 +1,5 @@
 ﻿using Api_OsteoHealth_Tesis.code;
+using Api_OsteoHealth_Tesis.Code;
 using Api_OsteoHealth_Tesis.Models;
 using Api_OsteoHealth_Tesis.Repository;
 using Microsoft.AspNetCore.Builder;
@@ -12,6 +13,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using System;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Text.Json.Serialization;
 
@@ -59,8 +61,10 @@ namespace Api_OsteoHealth_Tesis
                 .AddJsonOptions(options =>
                 options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 
-            services.AddScoped<IPacienteBL, PacienteBL>();
+            //services.AddScoped<IPacienteBL, PacienteBL>();
+            //services.AddScoped<ILoginBL, LoginBL>();
 
+            RegisterServices(services);
 
 
             services.AddAuthorizationBuilder();
@@ -122,5 +126,26 @@ namespace Api_OsteoHealth_Tesis
 
         }
 
+        private void RegisterServices(IServiceCollection services)
+        {
+            // Obtiene el ensamblado actual
+            var assembly = Assembly.GetExecutingAssembly();
+
+            // Filtra todas las clases públicas que implementan una interfaz
+            var typesWithInterfaces = assembly.GetTypes()
+                .Where(type => type.IsClass && !type.IsAbstract)
+                .Select(type => new
+                {
+                    Implementation = type,
+                    Interface = type.GetInterface("I" + type.Name) // Busca una interfaz con el prefijo "I"
+                })
+                .Where(t => t.Interface != null);
+
+            // Registra cada tipo encontrado como Scoped
+            foreach (var type in typesWithInterfaces)
+            {
+                services.AddScoped(type.Interface, type.Implementation);
+            }
+        }
     }
 }
