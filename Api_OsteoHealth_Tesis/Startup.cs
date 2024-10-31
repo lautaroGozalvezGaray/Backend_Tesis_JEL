@@ -1,4 +1,6 @@
-﻿using Api_OsteoHealth_Tesis.Models;
+﻿using Api_OsteoHealth_Tesis.code;
+using Api_OsteoHealth_Tesis.Models;
+using Api_OsteoHealth_Tesis.Repository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -46,10 +48,9 @@ namespace Api_OsteoHealth_Tesis
         {
 
             // Configura ApplicationDbContext usando la cadena de conexión en appsettings.json
-            services.AddDbContext<DbOsteoHealthContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString(conexionSQL)));
-
-            services.AddSingleton<IMemoryCache>(new MemoryCache(new MemoryCacheOptions() { SizeLimit = 102400 }));
+            services.AddDbContextFactory<DbOsteoHealthContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString(conexionSQL),
+            sqlOptions => sqlOptions.CommandTimeout(3000))); // Timeout en segundos
 
             services.AddApiVersioning(o => o.ReportApiVersions = true);
             services.AddCors();
@@ -57,6 +58,10 @@ namespace Api_OsteoHealth_Tesis
             services.AddControllersWithViews()
                 .AddJsonOptions(options =>
                 options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
+
+            services.AddScoped<IPacienteBL, PacienteBL>();
+
+
 
             services.AddAuthorizationBuilder();
 

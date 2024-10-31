@@ -1,16 +1,17 @@
 ﻿using Api_OsteoHealth_Tesis.Models;
+using Api_OsteoHealth_Tesis.Repository;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Api_OsteoHealth_Tesis.Code
+namespace Api_OsteoHealth_Tesis.code
 {
     /// <summary>
     /// Clase con la logica de negocio para paciente
     /// </summary>
-    public class PacienteBL
+    public class PacienteBL : IPacienteBL
     {
         private readonly DbOsteoHealthContext _context;
 
