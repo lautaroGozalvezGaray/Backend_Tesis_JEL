@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Api_OsteoHealth_Tesis.Controllers
 {
     /// <summary>
-    /// Endpoint para el login
+    /// Endpoint para el login   
     /// </summary>
     [ApiVersion("1.0")]
     [Route("api/{version:ApiVersion}/[controller]")]
@@ -32,7 +32,30 @@ namespace Api_OsteoHealth_Tesis.Controllers
         /// <param name="password"></param>
         /// <param name="id"></param>
         /// <returns></returns>
-        [HttpGet]
+
+        private readonly LoginBL _loginBL;
+
+        public LoginController(LoginBL loginBL)
+        {
+            _loginBL = loginBL;
+        }
+
+
+        [HttpPost("authenticate")]
+        public IActionResult Authenticate(string username, string password)
+        {
+            if (_loginBL.ValidateUser(username, password, out int userId, out string role))
+            {
+                var token = _loginBL.GenerateJwtToken(userId, role);
+                return Ok(new { token });
+            }
+            return Unauthorized();
+        }
+
+
+
+
+        /*[HttpGet]
         public IActionResult ValidateLogin(string username, string password, int id)
         {
             //borrar, solo es para que aparezca el endpoint
@@ -41,6 +64,6 @@ namespace Api_OsteoHealth_Tesis.Controllers
                 return Ok();
             }
             return Unauthorized();
-        }
+        }*/
     }
 }

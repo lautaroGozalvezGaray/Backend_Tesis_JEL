@@ -111,7 +111,11 @@ public partial class DbOsteoHealthContext : DbContext
 
     public virtual DbSet<TroncoFlexion> TroncoFlexions { get; set; }
 
+    public virtual DbSet<Turno> Turnos { get; set; }
+
     public virtual DbSet<Ubicacion> Ubicacions { get; set; }
+
+    public virtual DbSet<Usuario> Usuarios { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
@@ -1030,6 +1034,22 @@ public partial class DbOsteoHealthContext : DbContext
                 .HasConstraintName("FK__TroncoFle__idEva__681373AD");
         });
 
+        modelBuilder.Entity<Turno>(entity =>
+        {
+            entity.HasKey(e => e.IdTurno).HasName("PK__Turnos__C1ECF79A43881D89");
+
+            entity.Property(e => e.DiaSemana)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.EstadoTurno)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+
+            entity.HasOne(d => d.IdPacienteNavigation).WithMany(p => p.Turnos)
+                .HasForeignKey(d => d.IdPaciente)
+                .HasConstraintName("FK__Turnos__IdPacien__7755B73D");
+        });
+
         modelBuilder.Entity<Ubicacion>(entity =>
         {
             entity.HasKey(e => e.IdUbicacion).HasName("PK__Ubicacio__174D150E249A3E1F");
@@ -1044,6 +1064,21 @@ public partial class DbOsteoHealthContext : DbContext
                 .HasMaxLength(255)
                 .IsUnicode(false);
             entity.Property(e => e.Localidad)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+        });
+
+        modelBuilder.Entity<Usuario>(entity =>
+        {
+            entity.HasKey(e => e.IdUsuario).HasName("PK__Usuarios__5B65BF977EC7E11A");
+
+            entity.Property(e => e.Contrasena)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.Nombre)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.Rol)
                 .HasMaxLength(50)
                 .IsUnicode(false);
         });

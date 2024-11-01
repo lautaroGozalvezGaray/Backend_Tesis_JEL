@@ -16,6 +16,10 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+
 
 namespace Api_OsteoHealth_Tesis
 {
@@ -86,6 +90,28 @@ namespace Api_OsteoHealth_Tesis
 
 
             });
+
+
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+               .AddJwtBearer(options =>
+               {
+                   options.TokenValidationParameters = new TokenValidationParameters
+                   {
+                       ValidateIssuer           = true,
+                       ValidateAudience         = true,
+                       ValidateLifetime         = true,
+                       ValidateIssuerSigningKey = true,
+                       ValidIssuer              = Configuration["Jwt:Issuer"],
+                       ValidAudience            = Configuration["Jwt:Audience"],
+                       IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
+                   };
+               });
+
+            services.AddControllers();
+
+
+
+
 
         }
 
