@@ -1,4 +1,4 @@
-﻿using Api_OsteoHealth_Tesis.Models;
+using Api_OsteoHealth_Tesis.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.IdentityModel.Tokens;
@@ -7,10 +7,14 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System;
+using Api_OsteoHealth_Tesis.Repository;
 
 namespace Api_OsteoHealth_Tesis.Code
 {
-    public class LoginBL
+    /// <summary>
+    /// Clase con metodos para login
+    /// </summary>
+    public class LoginBL:ILoginBL
     {
         private readonly DbOsteoHealthContext _context;
         private readonly IConfiguration _configuration;

@@ -1,4 +1,7 @@
-﻿using Api_OsteoHealth_Tesis.Models;
+﻿using Api_OsteoHealth_Tesis.code;
+using Api_OsteoHealth_Tesis.Code;
+using Api_OsteoHealth_Tesis.Models;
+using Api_OsteoHealth_Tesis.Repository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -10,6 +13,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using System;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -50,10 +54,9 @@ namespace Api_OsteoHealth_Tesis
         {
 
             // Configura ApplicationDbContext usando la cadena de conexión en appsettings.json
-            services.AddDbContext<DbOsteoHealthContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString(conexionSQL)));
-
-            services.AddSingleton<IMemoryCache>(new MemoryCache(new MemoryCacheOptions() { SizeLimit = 102400 }));
+            services.AddDbContextFactory<DbOsteoHealthContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString(conexionSQL),
+            sqlOptions => sqlOptions.CommandTimeout(3000))); // Timeout en segundos
 
             services.AddApiVersioning(o => o.ReportApiVersions = true);
             services.AddCors();
@@ -61,6 +64,12 @@ namespace Api_OsteoHealth_Tesis
             services.AddControllersWithViews()
                 .AddJsonOptions(options =>
                 options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
+
+            //services.AddScoped<IPacienteBL, PacienteBL>();
+            //services.AddScoped<ILoginBL, LoginBL>();
+
+            RegisterServices(services);
+
 
             services.AddAuthorizationBuilder();
 
@@ -143,5 +152,26 @@ namespace Api_OsteoHealth_Tesis
 
         }
 
+        private void RegisterServices(IServiceCollection services)
+        {
+            // Obtiene el ensamblado actual
+            var assembly = Assembly.GetExecutingAssembly();
+
+            // Filtra todas las clases públicas que implementan una interfaz
+            var typesWithInterfaces = assembly.GetTypes()
+                .Where(type => type.IsClass && !type.IsAbstract)
+                .Select(type => new
+                {
+                    Implementation = type,
+                    Interface = type.GetInterface("I" + type.Name) // Busca una interfaz con el prefijo "I"
+                })
+                .Where(t => t.Interface != null);
+
+            // Registra cada tipo encontrado como Scoped
+            foreach (var type in typesWithInterfaces)
+            {
+                services.AddScoped(type.Interface, type.Implementation);
+            }
+        }
     }
 }

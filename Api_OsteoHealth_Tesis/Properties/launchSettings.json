@@ -13,7 +13,7 @@
       "launchUrl": "swagger",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
-        "ConexionSQL": "Server=tcp:serverdesarrollo.database.windows.net,1433;Initial Catalog=db_OsteoHealth;Persist Security Info=False;User ID=adminOsteo;Password=X&5rACWw9w&uedJ;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
+        "ConexionSQL": "Server=tcp:serverdesarrollo.database.windows.net,1433;Initial Catalog=db_OsteoHealth;Persist Security Info=False;User ID=adminOsteo;Password=X&5rACWw9w&uedJ;Encrypt=True;TrustServerCertificate=False;"
       }
     }
   },
