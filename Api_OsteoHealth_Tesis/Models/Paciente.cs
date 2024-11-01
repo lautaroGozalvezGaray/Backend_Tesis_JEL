@@ -56,4 +56,6 @@ public partial class Paciente
     public virtual Sexo SexoNavigation { get; set; }
 
     public virtual ICollection<TipoEnfermedadHereditarium> TipoEnfermedadHereditaria { get; set; } = new List<TipoEnfermedadHereditarium>();
+
+    public virtual ICollection<Turno> Turnos { get; set; } = new List<Turno>();
 }

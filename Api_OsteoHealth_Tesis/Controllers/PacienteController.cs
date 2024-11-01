@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Api_OsteoHealth_Tesis.Controllers
 {
     /// <summary>
-    /// Clase con l
+    /// Clase con l  
     /// </summary>
     [ApiVersion("1.0")]
     [Route("api/{version:ApiVersion}/[controller]")]
