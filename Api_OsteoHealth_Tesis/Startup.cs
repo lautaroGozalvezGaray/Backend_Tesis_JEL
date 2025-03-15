@@ -136,6 +136,8 @@ namespace Api_OsteoHealth_Tesis
 
             app.UseHttpsRedirection();
             app.UseCors(b => b.WithOrigins("*").AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
+            app.UseAuthentication(); // ✅ Middleware de autenticación antes de autorización
+            app.UseAuthorization();
             app.UseSwagger();
 
             // Serves the Swagger UI
