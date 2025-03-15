@@ -1,9 +1,14 @@
-﻿namespace Api_OsteoHealth_Tesis.Repository
+﻿using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
+
+namespace Api_OsteoHealth_Tesis.Repository
 {
     /// <summary>
     /// Interface para la clase LoginBL
     /// </summary>
     public interface ILoginBL
     {
+        Task<string> GenerateJwtToken(int userId, string role);
+        Task<(bool isValid, int userId, string role)> ValidateUserAsync(string username, string password);
     }
 }

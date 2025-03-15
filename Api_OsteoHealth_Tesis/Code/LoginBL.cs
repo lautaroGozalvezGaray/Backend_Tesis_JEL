@@ -8,6 +8,8 @@ using System.Security.Claims;
 using System.Text;
 using System;
 using Api_OsteoHealth_Tesis.Repository;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace Api_OsteoHealth_Tesis.Code
 {
@@ -30,63 +32,87 @@ namespace Api_OsteoHealth_Tesis.Code
             _context      = context;
             _configuration = configuration;
         }
+
         /// <summary>
-        /// Valida el login de un usuario
+        /// Genera un token JWT
         /// </summary>
-        /// <param name="username"></param>
-        /// <param name="password"></param>
-        /// <param name="id"></param>
         /// <param name="userId"></param>
         /// <param name="role"></param>
         /// <returns></returns>
-        /*public static bool ValidateLogin(string username, string password, int id)
+        public async Task<string> GenerateJwtToken(int userId, string role)
         {
-            if (username == "admin" && password == "admin")
+            try
             {
-                return true;
+                // Validar configuración JWT
+                var keyString = _configuration["Jwt:Key"];
+                if (string.IsNullOrEmpty(keyString))
+                {
+                    return null;
+                }
+
+                var issuer = _configuration["Jwt:Issuer"];
+                var audience = _configuration["Jwt:Audience"];
+                if (string.IsNullOrEmpty(issuer) || string.IsNullOrEmpty(audience))
+                {
+                    return null;
+                }
+
+                var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(keyString));
+                var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+                // Definir los claims del usuario
+                var claims = new[]
+                {
+                    new Claim(JwtRegisteredClaimNames.Sub, userId.ToString()),
+                    new Claim(ClaimTypes.Role, role),
+                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                    new Claim(JwtRegisteredClaimNames.Iat, DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString())
+                };
+
+                // Crear el token JWT
+                var token = new JwtSecurityToken(
+                    issuer: issuer,
+                    audience: audience,
+                    claims: claims,
+                    expires: DateTime.UtcNow.AddHours(1),
+                    signingCredentials: creds);
+
+                return new JwtSecurityTokenHandler().WriteToken(token);
             }
-            return false;
-        }*/
-
-
-        public string GenerateJwtToken(int userId, string role)
-        {
-            var claims = new[]
+            catch (Exception ex)
             {
-            new Claim(JwtRegisteredClaimNames.Sub, userId.ToString()),
-            new Claim(ClaimTypes.Role, role),
-            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
-        };
-
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
-            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-
-            var token = new JwtSecurityToken(
-                issuer: _configuration["Jwt:Issuer"],
-                audience: _configuration["Jwt:Audience"],
-                claims: claims,
-                expires: DateTime.Now.AddHours(1),
-                signingCredentials: creds);
-
-            return new JwtSecurityTokenHandler().WriteToken(token);
+                return null; // Retornar null en caso de error
+                throw new Exception("Error al generar el token JWT", ex);
+            }
         }
 
-        public bool ValidateUser(string username, string password, out int userId, out string role)
+        /// <summary>
+        /// Valida las credenciales del usuario en la base de datos.
+        /// </summary>
+        /// <param name="username">Nombre de usuario</param>
+        /// <param name="password">Contraseña del usuario</param>
+        /// <returns>Tupla con validación, ID de usuario y rol</returns>
+        public async Task<(bool isValid, int userId, string role)> ValidateUserAsync(string username, string password)
         {
-            var user = _context.Usuarios
-                .FirstOrDefault(u => u.Nombre == username && u.Contrasena == password);
-
-            if (user != null)
+            try
             {
-                userId = user.IdUsuario;
-                role = user.Rol;
-                return true;
-            }
+                var user = await _context.Set<Usuario>()
+                    .FirstOrDefaultAsync(u => u.Nombre == username && u.Contrasena == password);
 
-            userId = 0;
-            role = null;
-            return false;
+                if (user != null)
+                {
+                    return (true, user.IdUsuario, user.Rol);
+                }
+
+                return (false, 0, null);
+            }
+            catch (Exception ex)
+            {
+                return (false, 0, null);
+                throw new Exception("Error al validar el usuario", ex);
+            }
         }
+
     }
 
 }

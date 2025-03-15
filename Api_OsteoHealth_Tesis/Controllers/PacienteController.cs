@@ -2,6 +2,7 @@
 using Api_OsteoHealth_Tesis.Models;
 using Api_OsteoHealth_Tesis.Repository;
 using Asp.Versioning;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -14,6 +15,7 @@ namespace Api_OsteoHealth_Tesis.Controllers
     [ApiVersion("1.0")]
     [Route("api/{version:ApiVersion}/[controller]")]
     [ApiController]
+    [Authorize]
     public class PacienteController:ControllerBase
     {
         private readonly IPacienteBL _pacienteBL;
