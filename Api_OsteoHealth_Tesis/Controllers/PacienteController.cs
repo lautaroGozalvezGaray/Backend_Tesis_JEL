@@ -4,6 +4,7 @@ using Api_OsteoHealth_Tesis.Repository;
 using Asp.Versioning;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -36,8 +37,15 @@ namespace Api_OsteoHealth_Tesis.Controllers
         [HttpGet]
         public async Task<ActionResult<List<Paciente>>> GetPacientes()
         {
-            var pacientes = await _pacienteBL.GetPacientes();
-            return Ok(pacientes);
+            try
+            {
+                var pacientes = await _pacienteBL.GetPacientes();
+                return Ok(pacientes);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"{ex.Message}");
+            }
         }
 
         /// <summary>
@@ -48,8 +56,16 @@ namespace Api_OsteoHealth_Tesis.Controllers
         [HttpGet("edad/{edad}")]
         public async Task<ActionResult<List<Paciente>>> GetPacientesByEdad(int edad)
         {
-            var pacientes = await _pacienteBL.GetPacientesByEdad(edad);
-            return Ok(pacientes);
+            try
+            {
+                var pacientes = await _pacienteBL.GetPacientesByEdad(edad);
+                return Ok(pacientes);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"{ex.Message}");
+
+            }
         }
 
         /// <summary>
@@ -60,11 +76,18 @@ namespace Api_OsteoHealth_Tesis.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Paciente>> GetPacienteById(int id)
         {
-            var paciente = await _pacienteBL.GetPacienteById(id);
-            if (paciente == null)
-                return NotFound("Paciente no encontrado");
+            try
+            {
+                var paciente = await _pacienteBL.GetPacienteById(id);
+                if (paciente == null)
+                    return NotFound("Paciente no encontrado");
 
-            return Ok(paciente);
+                return Ok(paciente);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"{ex.Message}");
+            }
         }
 
         /// <summary>
@@ -75,9 +98,21 @@ namespace Api_OsteoHealth_Tesis.Controllers
         [HttpPost]
         public async Task<ActionResult<Paciente>> InsertarPacienteNuevo(Paciente nuevoPaciente)
         {
-            var pacienteInsertado = await _pacienteBL.InsertarPacienteNuevo(nuevoPaciente);
-            return CreatedAtAction(nameof(GetPacienteById), new { id = pacienteInsertado.Dni }, pacienteInsertado);
+            try
+            {
+                if (nuevoPaciente == null)
+                    return BadRequest("Los datos del paciente son inválidos.");
+
+                var pacienteInsertado = await _pacienteBL.InsertarPacienteNuevo(nuevoPaciente);
+                return CreatedAtAction(nameof(GetPacienteById), new { id = pacienteInsertado.Dni }, pacienteInsertado);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"{ex.Message}");
+
+            }
         }
+
 
         /// <summary>
         /// Endpoint para actualizar un paciente
@@ -88,11 +123,18 @@ namespace Api_OsteoHealth_Tesis.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult<string>> ActualizarPaciente(int id, Paciente pacienteActualizado)
         {
-            var resultado = await _pacienteBL.ActualizarPaciente(id, pacienteActualizado);
-            if (resultado == "Paciente no encontrado")
-                return NotFound(resultado);
+            try
+            {
+                var resultado = await _pacienteBL.ActualizarPaciente(id, pacienteActualizado);
+                if (resultado == "Paciente no encontrado")
+                    return NotFound(resultado);
 
-            return Ok(resultado);
+                return Ok(resultado);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"{ex.Message}");
+            }
         }
 
         /// <summary>
@@ -103,11 +145,18 @@ namespace Api_OsteoHealth_Tesis.Controllers
         [HttpDelete("{dni}")]
         public async Task<ActionResult<string>> EliminarPacientePorDni(int dni)
         {
-            var resultado = await _pacienteBL.EliminarPacientePorDni(dni);
-            if (resultado == "Paciente no encontrado")
-                return NotFound(resultado);
+            try
+            {
+                var resultado = await _pacienteBL.EliminarPacientePorDni(dni);
+                if (resultado == "Paciente no encontrado")
+                    return NotFound(resultado);
 
-            return Ok(resultado);
+                return Ok(resultado);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"{ex.Message}");
+            }
         }
 
     }

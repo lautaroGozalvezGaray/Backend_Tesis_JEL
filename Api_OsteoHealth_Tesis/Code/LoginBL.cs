@@ -27,6 +27,7 @@ namespace Api_OsteoHealth_Tesis.Code
         /// que es el contexto de Entity Framework Core configurado para tu base de datos.
         /// </summary>
         /// <param name="context"></param>
+        /// <param name="configuration"></param>
         public LoginBL(DbOsteoHealthContext context, IConfiguration configuration)
         {
             _context      = context;

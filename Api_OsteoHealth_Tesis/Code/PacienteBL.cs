@@ -2,6 +2,8 @@
 using Api_OsteoHealth_Tesis.Repository;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -32,8 +34,14 @@ namespace Api_OsteoHealth_Tesis.code
         /// <returns></returns>
         public async Task<List<Paciente>> GetPacientes()
         {
-            var pacientes = await _context.Pacientes.ToListAsync();
-            return pacientes;
+            try
+            {
+                return await _context.Pacientes.ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
 
         /// <summary>
@@ -43,10 +51,14 @@ namespace Api_OsteoHealth_Tesis.code
         /// <returns></returns>
         public async Task<List<Paciente>> GetPacientesByEdad(int edad)
         {
-            var pacientes = await _context.Pacientes
-                                          .Where(p => p.Edad == edad)
-                                          .ToListAsync();
-            return pacientes;
+            try
+            {
+                return await _context.Pacientes.Where(p => p.Edad == edad).ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
 
         /// <summary>
@@ -56,9 +68,14 @@ namespace Api_OsteoHealth_Tesis.code
         /// <returns></returns>
         public async Task<Paciente> GetPacienteById(int id)
         {
-            var paciente = await _context.Pacientes.FindAsync(id);
-
-            return paciente;
+            try
+            {
+                return await _context.Pacientes.FindAsync(id);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
 
         /// <summary>
@@ -68,12 +85,17 @@ namespace Api_OsteoHealth_Tesis.code
         /// <returns></returns>
         public async Task<Paciente> InsertarPacienteNuevo(Paciente nuevoPaciente)
         {
-            _context.Pacientes.Add(nuevoPaciente);
-            await _context.SaveChangesAsync();
+            try
+            {
+                _context.Pacientes.Add(nuevoPaciente);
+                await _context.SaveChangesAsync();
 
-            var pacienteInsertado = await _context.Pacientes.FindAsync(nuevoPaciente.Dni);
-
-            return pacienteInsertado;
+                return await _context.Pacientes.FindAsync(nuevoPaciente.Dni);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
 
         /// <summary>
@@ -84,19 +106,23 @@ namespace Api_OsteoHealth_Tesis.code
         /// <returns></returns>
         public async Task<string> ActualizarPaciente(int id, Paciente pacienteActualizado)
         {
-            var paciente = await _context.Pacientes.FindAsync(id);
+            try
+            {
+                var paciente = await _context.Pacientes.FindAsync(id);
+                if (paciente == null)
+                    return "Paciente no encontrado";
 
-            if (paciente == null)
-                return "Paciente no encontrado";
+                paciente.Nombre = pacienteActualizado.Nombre;
+                paciente.Edad = pacienteActualizado.Edad;
+                // otros campos...
 
-            // Actualizar campos
-            paciente.Nombre = pacienteActualizado.Nombre;
-            paciente.Edad = pacienteActualizado.Edad;
-            // otros campos...
-
-            await _context.SaveChangesAsync();
-
-            return "Paciente Actualizado";
+                await _context.SaveChangesAsync();
+                return "Paciente Actualizado";
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
 
         /// <summary>
@@ -106,15 +132,21 @@ namespace Api_OsteoHealth_Tesis.code
         /// <returns></returns>
         public async Task<string> EliminarPacientePorDni(int dni)
         {
-            var paciente = await _context.Pacientes.FindAsync(dni);
+            try
+            {
+                var paciente = await _context.Pacientes.FindAsync(dni);
+                if (paciente == null)
+                    return "Paciente no encontrado";
 
-            if (paciente == null)
-                return "Paciente no encontrado";
+                _context.Pacientes.Remove(paciente);
+                await _context.SaveChangesAsync();
+                return "Paciente eliminado";
+            }
+            catch (Exception ex)
+            {
+                throw;
 
-            _context.Pacientes.Remove(paciente);
-            await _context.SaveChangesAsync();
-
-            return "Paciente eliminado";
+            }
         }
     }
 }
