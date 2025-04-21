@@ -13,7 +13,7 @@
       "launchUrl": "swagger",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
-        "ConexionSQL": "Server=tcp:serverdesarrollo.database.windows.net,1433;Initial Catalog=db_OsteoHealth;Persist Security Info=False;User ID=adminOsteo;Password=X&5rACWw9w&uedJ;Encrypt=True;TrustServerCertificate=False;",
+        "ConexionSQL": "Host=ep-icy-art-a28haw1t-pooler.eu-central-1.aws.neon.tech;Database=OsteoHelth;Username=neondb_owner;Password=npg_Nfv6l1BCGwsQ;SSL Mode=Require;Trust Server Certificate=true"
       }
     }
   },

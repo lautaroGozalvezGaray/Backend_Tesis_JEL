@@ -1,12 +1,7 @@
-﻿using Api_OsteoHealth_Tesis.code;
-using Api_OsteoHealth_Tesis.Code;
-using Api_OsteoHealth_Tesis.Models;
-using Api_OsteoHealth_Tesis.Repository;
+﻿using Api_OsteoHealth_Tesis.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -37,7 +32,8 @@ namespace Api_OsteoHealth_Tesis
             Configuration = configuration;
         }
 
-        private static readonly string conexionSQL = Environment.GetEnvironmentVariable("ConexionSQL");
+        private static readonly string ConexionSql = Environment.GetEnvironmentVariable("ConexionSQL");
+            
 
 
         /// <summary>
@@ -54,9 +50,8 @@ namespace Api_OsteoHealth_Tesis
         {
 
             // Configura ApplicationDbContext usando la cadena de conexión en appsettings.json
-            services.AddDbContextFactory<DbOsteoHealthContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString(conexionSQL),
-            sqlOptions => sqlOptions.CommandTimeout(3000))); // Timeout en segundos
+            services.AddDbContext<DbOsteoHealthContext>(options =>
+                options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddApiVersioning(o => o.ReportApiVersions = true);
             services.AddCors();
@@ -83,7 +78,6 @@ namespace Api_OsteoHealth_Tesis
                     Version = "1.0"
                 });
 
-                // Set the comments path for the Swagger JSON and UI.
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 c.IncludeXmlComments(xmlPath);
@@ -103,7 +97,7 @@ namespace Api_OsteoHealth_Tesis
                        ValidateIssuerSigningKey = true,
                        ValidIssuer              = Configuration["Jwt:Issuer"],
                        ValidAudience            = Configuration["Jwt:Audience"],
-                       IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
+                       IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"] ?? string.Empty))
                    };
                });
 
@@ -122,7 +116,7 @@ namespace Api_OsteoHealth_Tesis
         /// </summary>
         /// <param name="app"></param>
         /// <param name="env"></param>
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider serviceProvider)
         {
             if (env.IsDevelopment())
             {
@@ -132,26 +126,55 @@ namespace Api_OsteoHealth_Tesis
             {
                 app.UseHsts();
             }
-            app.UseRouting();
 
+            // Confirmar conexión a la base de datos
+            try
+            {
+                using (var scope = serviceProvider.CreateScope())
+                {
+                    var db = scope.ServiceProvider.GetRequiredService<DbOsteoHealthContext>();
+                    try
+                    {
+                        db.Database.GetDbConnection().Open();
+                        Console.WriteLine("✅ Conexión a la base de datos establecida correctamente.");
+                    }
+                    catch (Exception innerEx)
+                    {
+                        Console.WriteLine("❌ Error al intentar conectar con la base de datos:");
+                        Console.WriteLine($"   📄 Mensaje: {innerEx.Message}");
+
+                        if (innerEx.InnerException != null)
+                        {
+                            Console.WriteLine($"   🔍 InnerException: {innerEx.InnerException.Message}");
+                        }
+
+                        Console.WriteLine($"   🧵 StackTrace: {innerEx.StackTrace}");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"❌ Error general: {ex.Message}");
+            }
+
+
+
+            app.UseRouting();
             app.UseHttpsRedirection();
             app.UseCors(b => b.WithOrigins("*").AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
-            app.UseAuthentication(); // ✅ Middleware de autenticación antes de autorización
+            app.UseAuthentication();
             app.UseAuthorization();
             app.UseSwagger();
 
-            // Serves the Swagger UI
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/1.0/swagger.json", "Swagger Api Gerenciamiento de Viajes");
-
             });
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
-
         }
 
         private void RegisterServices(IServiceCollection services)
