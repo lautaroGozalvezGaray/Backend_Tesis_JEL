@@ -8,7 +8,7 @@ namespace Api_OsteoHealth_Tesis.Repository
     /// </summary>
     public interface ILoginBL
     {
-        Task<string> GenerateJwtToken(int userId, string role);
-        Task<(bool isValid, int userId, string role)> ValidateUserAsync(string username, string password);
+        Task<string> GenerateJwtToken(string userId, string role);
+        Task<(bool isValid, string userId, string role)> ValidateUserAsync(string username, string password);
     }
 }

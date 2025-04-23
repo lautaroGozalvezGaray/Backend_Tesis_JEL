@@ -1074,10 +1074,10 @@ public partial class DbOsteoHealthContext : DbContext
         {
             entity.HasKey(e => e.IdUsuario).HasName("PK__Usuarios__5B65BF977EC7E11A");
 
-            entity.Property(e => e.Contrasena)
+            entity.Property(e => e.password)
                 .HasMaxLength(50)
                 .IsUnicode(false);
-            entity.Property(e => e.Nombre)
+            entity.Property(e => e.username)
                 .HasMaxLength(50)
                 .IsUnicode(false);
             entity.Property(e => e.Rol)

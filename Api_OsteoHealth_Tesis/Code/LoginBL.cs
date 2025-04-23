@@ -40,7 +40,7 @@ namespace Api_OsteoHealth_Tesis.Code
         /// <param name="userId"></param>
         /// <param name="role"></param>
         /// <returns></returns>
-        public async Task<string> GenerateJwtToken(int userId, string role)
+        public async Task<string> GenerateJwtToken(string userId, string role)
         {
             try
             {
@@ -93,23 +93,23 @@ namespace Api_OsteoHealth_Tesis.Code
         /// <param name="username">Nombre de usuario</param>
         /// <param name="password">Contraseña del usuario</param>
         /// <returns>Tupla con validación, ID de usuario y rol</returns>
-        public async Task<(bool isValid, int userId, string role)> ValidateUserAsync(string username, string password)
+        public async Task<(bool isValid, string userId, string role)> ValidateUserAsync(string username, string password)
         {
             try
             {
                 var user = await _context.Set<Usuario>()
-                    .FirstOrDefaultAsync(u => u.Nombre == username && u.Contrasena == password);
+                    .FirstOrDefaultAsync(u => u.username == username && u.password == password);
 
                 if (user != null)
                 {
-                    return (true, user.IdUsuario, user.Rol);
+                    return (true, user.IdUsuario.ToString(), user.Rol);
                 }
 
-                return (false, 0, null);
+                return (false, "", null);
             }
             catch (Exception ex)
             {
-                return (false, 0, null);
+                return (false, "", null);
                 throw new Exception("Error al validar el usuario", ex);
             }
         }
