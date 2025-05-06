@@ -1,4 +1,5 @@
 ﻿using Api_OsteoHealth_Tesis.Models;
+using Api_OsteoHealth_Tesis.ModelsCustom;
 using Api_OsteoHealth_Tesis.Repository;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;

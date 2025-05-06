@@ -1,5 +1,6 @@
 ﻿using Api_OsteoHealth_Tesis.code;
 using Api_OsteoHealth_Tesis.Models;
+using Api_OsteoHealth_Tesis.ModelsCustom;
 using Api_OsteoHealth_Tesis.Repository;
 using Asp.Versioning;
 using Microsoft.AspNetCore.Authorization;

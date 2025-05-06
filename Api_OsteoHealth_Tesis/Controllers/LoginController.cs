@@ -1,5 +1,6 @@
 ﻿using Api_OsteoHealth_Tesis.Code;
 using Api_OsteoHealth_Tesis.Models;
+using Api_OsteoHealth_Tesis.ModelsCustom;
 using Api_OsteoHealth_Tesis.Repository;
 using Asp.Versioning;
 using Microsoft.AspNetCore.Identity.Data;
@@ -33,7 +34,7 @@ namespace Api_OsteoHealth_Tesis.Controllers
         /// <param name="loginRequest">parametros para logear</param>
         /// <returns></returns>
         [HttpPost("authenticate")]
-        public async Task<IActionResult> Authenticate([FromBody] UsuarioLogin loginRequest)
+        public async Task<IActionResult> Authenticate([FromBody] UsuarioLoginDto loginRequest)
         {
             if (loginRequest == null || string.IsNullOrEmpty(loginRequest.username) || string.IsNullOrEmpty(loginRequest.password))
             {

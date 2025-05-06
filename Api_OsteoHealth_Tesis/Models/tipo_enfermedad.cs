@@ -18,9 +18,3 @@ public partial class tipo_enfermedad
     [InverseProperty("idenfermedadNavigation")]
     public virtual ICollection<tipo_enfermedad_hereditarium> tipo_enfermedad_hereditaria { get; set; } = new List<tipo_enfermedad_hereditarium>();
 }
-
-public class TipoEnfermedadDto
-{
-    public int idenfermedad { get; set; }
-    public string nombre { get; set; }
-}

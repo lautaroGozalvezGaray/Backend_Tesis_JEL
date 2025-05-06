@@ -107,6 +107,8 @@ public partial class OsteoHealthContext : DbContext
 
     public virtual DbSet<tratamiento_efectuado> tratamiento_efectuados { get; set; }
 
+    public virtual DbSet<turno> turnos { get; set; }
+
     public virtual DbSet<ubicacion> ubicacions { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -547,6 +549,23 @@ public partial class OsteoHealthContext : DbContext
             entity.HasOne(d => d.idtiposestructuraNavigation).WithMany(p => p.tratamiento_efectuados)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("tratamiento_efectuado_idtiposestructura_fkey");
+        });
+
+        modelBuilder.Entity<turno>(entity =>
+        {
+            entity.HasKey(e => e.dturno).HasName("turno_pkey");
+
+            entity.Property(e => e.dturno).UseIdentityAlwaysColumn();
+            entity.Property(e => e.duracionminutos).HasDefaultValue(30);
+            entity.Property(e => e.idpaciente).ValueGeneratedOnAdd();
+
+            entity.HasOne(d => d.idpacienteNavigation).WithMany(p => p.turnos)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("fk_turno_paciente");
+
+            entity.HasOne(d => d.idusuarioNavigation).WithMany(p => p.turnos)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("fk_turno_usuario");
         });
 
         modelBuilder.Entity<ubicacion>(entity =>

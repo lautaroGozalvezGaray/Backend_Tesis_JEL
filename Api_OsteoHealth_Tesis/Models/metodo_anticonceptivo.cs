@@ -18,9 +18,3 @@ public partial class metodo_anticonceptivo
     [InverseProperty("idmetodoNavigation")]
     public virtual ICollection<antecedentes_tocoginecologico> antecedentes_tocoginecologicos { get; set; } = new List<antecedentes_tocoginecologico>();
 }
-
-public class MetodoAnticonceptivoDto
-{
-    public int idmetodo { get; set; }
-    public string nombre { get; set; }
-}

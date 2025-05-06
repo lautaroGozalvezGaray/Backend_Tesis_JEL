@@ -19,9 +19,3 @@ public partial class obra_social
     [InverseProperty("idobrasocialNavigation")]
     public virtual ICollection<paciente> pacientes { get; set; } = new List<paciente>();
 }
-
-public class ObraSocialDto
-{
-    public int idobrasocial { get; set; }
-    public string nombre { get; set; }
-}

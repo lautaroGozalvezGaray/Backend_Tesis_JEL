@@ -81,4 +81,7 @@ public partial class paciente
 
     [InverseProperty("dniNavigation")]
     public virtual ICollection<tipo_enfermedad_hereditarium> tipo_enfermedad_hereditaria { get; set; } = new List<tipo_enfermedad_hereditarium>();
+
+    [InverseProperty("idpacienteNavigation")]
+    public virtual ICollection<turno> turnos { get; set; } = new List<turno>();
 }

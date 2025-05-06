@@ -20,10 +20,7 @@ public partial class Usuario
 
     [Column(TypeName = "character varying")]
     public string Rol { get; set; }
-}
 
-public class UsuarioLogin
-{
-    public string username { get; set; }
-    public string password { get; set; }
+    [InverseProperty("idusuarioNavigation")]
+    public virtual ICollection<turno> turnos { get; set; } = new List<turno>();
 }
