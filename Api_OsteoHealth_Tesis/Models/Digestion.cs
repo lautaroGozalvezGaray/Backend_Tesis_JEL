@@ -1,27 +1,40 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 
 namespace Api_OsteoHealth_Tesis.Models;
 
-public partial class Digestion
+[Table("digestion")]
+public partial class digestion
 {
-    public int IdDigestion { get; set; }
+    [Key]
+    public int iddigestion { get; set; }
 
-    public int IdSesion { get; set; }
+    public int idsesion { get; set; }
 
-    public int? CantidadLapso { get; set; }
+    public int? cantidadlapso { get; set; }
 
-    public int IdSintomaDigestion { get; set; }
+    public int idsintomadigestion { get; set; }
 
-    public int IdFrecuenciaLapso { get; set; }
+    public int idfrecuencialapso { get; set; }
 
-    public int IdEstadoDigestion { get; set; }
+    public int idestadodigestion { get; set; }
 
-    public virtual EstadoDigestion IdEstadoDigestionNavigation { get; set; }
+    [ForeignKey("idestadodigestion")]
+    [InverseProperty("digestions")]
+    public virtual estado_digestion idestadodigestionNavigation { get; set; }
 
-    public virtual FrecuenciaLapso IdFrecuenciaLapsoNavigation { get; set; }
+    [ForeignKey("idfrecuencialapso")]
+    [InverseProperty("digestions")]
+    public virtual frecuencia_lapso idfrecuencialapsoNavigation { get; set; }
 
-    public virtual Sesion IdSesionNavigation { get; set; }
+    [ForeignKey("idsesion")]
+    [InverseProperty("digestions")]
+    public virtual sesion idsesionNavigation { get; set; }
 
-    public virtual SintomaDigestion IdSintomaDigestionNavigation { get; set; }
+    [ForeignKey("idsintomadigestion")]
+    [InverseProperty("digestions")]
+    public virtual sintoma_digestion idsintomadigestionNavigation { get; set; }
 }

@@ -1,21 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 
 namespace Api_OsteoHealth_Tesis.Models;
 
-public partial class Sueno
+[Table("sueno")]
+public partial class sueno
 {
-    public int IdSueno { get; set; }
+    [Key]
+    public int idsueno { get; set; }
 
-    public int IdSesion { get; set; }
+    public int idsesion { get; set; }
 
-    public int? HorasSueno { get; set; }
+    public int? horassueno { get; set; }
 
-    public int IdCalidadPercibidaSueno { get; set; }
+    public int idcalidadpercibidasueno { get; set; }
 
-    public TimeOnly? HorarioHabitual { get; set; }
+    public TimeOnly? horariohabitual { get; set; }
 
-    public virtual CalidadPercibidaSueno IdCalidadPercibidaSuenoNavigation { get; set; }
+    [ForeignKey("idcalidadpercibidasueno")]
+    [InverseProperty("suenos")]
+    public virtual calidad_percibida_sueno idcalidadpercibidasuenoNavigation { get; set; }
 
-    public virtual ICollection<Sesion> Sesions { get; set; } = new List<Sesion>();
+    [InverseProperty("idsuenoNavigation")]
+    public virtual ICollection<sesion> sesions { get; set; } = new List<sesion>();
 }

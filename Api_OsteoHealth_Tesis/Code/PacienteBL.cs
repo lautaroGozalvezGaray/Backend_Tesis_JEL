@@ -15,7 +15,7 @@ namespace Api_OsteoHealth_Tesis.code
     /// </summary>
     public class PacienteBL : IPacienteBL
     {
-        private readonly DbOsteoHealthContext _context;
+        private readonly OsteoHealthContext _context;
 
         /// <summary>
         /// Este es un constructor de la clase LoginController que utiliza inyección de dependencias 
@@ -23,7 +23,7 @@ namespace Api_OsteoHealth_Tesis.code
         /// que es el contexto de Entity Framework Core configurado para tu base de datos.
         /// </summary>
         /// <param name="context"></param>
-        public  PacienteBL(DbOsteoHealthContext context)
+        public PacienteBL(OsteoHealthContext context)
         {
             _context = context;
         }
@@ -32,11 +32,11 @@ namespace Api_OsteoHealth_Tesis.code
         /// Metodo para obtener todos los pacientes ejemplo
         /// </summary>
         /// <returns></returns>
-        public async Task<List<Paciente>> GetPacientes()
+        public async Task<List<paciente>> GetPacientes()
         {
             try
             {
-                return await _context.Pacientes.ToListAsync();
+                return await _context.pacientes.ToListAsync();
             }
             catch (Exception ex)
             {
@@ -49,11 +49,11 @@ namespace Api_OsteoHealth_Tesis.code
         /// </summary>
         /// <param name="edad"></param>
         /// <returns></returns>
-        public async Task<List<Paciente>> GetPacientesByEdad(int edad)
+        public async Task<List<paciente>> GetPacientesByEdad(int edad)
         {
             try
             {
-                return await _context.Pacientes.Where(p => p.Edad == edad).ToListAsync();
+                return await _context.pacientes.Where(p => p.edad == edad).ToListAsync();
             }
             catch (Exception ex)
             {
@@ -66,11 +66,11 @@ namespace Api_OsteoHealth_Tesis.code
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public async Task<Paciente> GetPacienteById(int id)
+        public async Task<paciente> GetPacienteById(int id)
         {
             try
             {
-                return await _context.Pacientes.FindAsync(id);
+                return await _context.pacientes.FindAsync(id);
             }
             catch (Exception ex)
             {
@@ -83,14 +83,14 @@ namespace Api_OsteoHealth_Tesis.code
         /// </summary>
         /// <param name="nuevoPaciente"></param>
         /// <returns></returns>
-        public async Task<Paciente> InsertarPacienteNuevo(Paciente nuevoPaciente)
+        public async Task<paciente> InsertarPacienteNuevo(paciente nuevoPaciente)
         {
             try
             {
-                _context.Pacientes.Add(nuevoPaciente);
+                _context.pacientes.Add(nuevoPaciente);
                 await _context.SaveChangesAsync();
 
-                return await _context.Pacientes.FindAsync(nuevoPaciente.Dni);
+                return await _context.pacientes.FindAsync(nuevoPaciente.dni);
             }
             catch (Exception ex)
             {
@@ -103,32 +103,32 @@ namespace Api_OsteoHealth_Tesis.code
         /// <param name="id"></param>
         /// <param name="pacienteActualizado"></param>
         /// <returns></returns>
-        public async Task<string> ActualizarPaciente(int id, Paciente pacienteActualizado)
+        public async Task<string> ActualizarPaciente(int id, paciente pacienteActualizado)
         {
             try
             {
-                var paciente = await _context.Pacientes.FindAsync(id);
+                var paciente = await _context.pacientes.FindAsync(id);
                 if (paciente == null)
                     return "Paciente no encontrado";
 
-                paciente.Dni = pacienteActualizado.Dni;
-                paciente.Nombre = pacienteActualizado.Nombre;
-                paciente.Apellido = pacienteActualizado.Apellido;
-                paciente.FechaNacimiento = pacienteActualizado.FechaNacimiento;
-                paciente.FechaIngreso = pacienteActualizado.FechaIngreso;
-                paciente.Edad = pacienteActualizado.Edad;
-                paciente.Estado = pacienteActualizado.Estado;
-                paciente.Peso = pacienteActualizado.Peso;
-                paciente.Altura = pacienteActualizado.Altura;
-                paciente.Sexo = pacienteActualizado.Sexo;
-                paciente.Telefono = pacienteActualizado.Telefono;
-                paciente.Email = pacienteActualizado.Email;
-                paciente.IdAntecedeToco = pacienteActualizado.IdObraSocial;
-                paciente.IdImagen = pacienteActualizado.IdImagen;
-                paciente.IdUbicacion = pacienteActualizado.IdUbicacion;
-                paciente.IdInformacionAdicional = pacienteActualizado.IdInformacionAdicional;
-                paciente.IdEnfermedadHereditaria = pacienteActualizado.IdEnfermedadHereditaria;
-                paciente.IdAntecedeToco = pacienteActualizado.IdAntecedeToco;
+                paciente.dni = pacienteActualizado.dni;
+                paciente.nombre = pacienteActualizado.nombre;
+                paciente.apellido = pacienteActualizado.apellido;
+                paciente.fechanacimiento = pacienteActualizado.fechanacimiento;
+                paciente.fechaingreso = pacienteActualizado.fechaingreso;
+                paciente.edad = pacienteActualizado.edad;
+                paciente.estado = pacienteActualizado.estado;
+                paciente.peso = pacienteActualizado.peso;
+                paciente.altura = pacienteActualizado.altura;
+                paciente.sexo = pacienteActualizado.sexo;
+                paciente.telefono = pacienteActualizado.telefono;
+                paciente.email = pacienteActualizado.email;
+                paciente.idantecedetoco = pacienteActualizado.idobrasocial;
+                paciente.idimagen = pacienteActualizado.idimagen;
+                paciente.idubicacion = pacienteActualizado.idubicacion;
+                paciente.idinformacionadicional = pacienteActualizado.idinformacionadicional;
+                paciente.idenfermedadhereditaria = pacienteActualizado.idenfermedadhereditaria;
+                paciente.idantecedetoco = pacienteActualizado.idantecedetoco;
 
                 await _context.SaveChangesAsync();
                 return "Paciente Actualizado";
@@ -148,13 +148,89 @@ namespace Api_OsteoHealth_Tesis.code
         {
             try
             {
-                var paciente = await _context.Pacientes.FindAsync(dni);
+                var paciente = await _context.pacientes.FindAsync(dni);
                 if (paciente == null)
                     return "Paciente no encontrado";
 
-                _context.Pacientes.Remove(paciente);
+                _context.pacientes.Remove(paciente);
                 await _context.SaveChangesAsync();
                 return "Paciente eliminado";
+            }
+            catch (Exception ex)
+            {
+                throw;
+
+            }
+        }
+
+        /// <summary>
+        /// Metodo para eliminar un paciente por su dni
+        /// </summary>
+        /// <returns></returns>
+        public async Task<List<obra_social>> ObtenerObrasSociales()
+        {
+            try
+            {
+                var obraSociales = await _context.obra_socials.ToListAsync();
+
+                return obraSociales.ToList();
+            }
+            catch (Exception ex)
+            {
+                throw;
+
+            }
+        }
+
+        /// <summary>
+        /// Metodo para obtener el lsitado de enfermedades
+        /// </summary>
+        /// <returns></returns>
+        public async Task<List<tipo_enfermedad>> ObtenerTiposEnfermedad()
+        {
+            try
+            {
+                var tipoEnfermedads = await _context.tipo_enfermedads.ToListAsync();
+
+                return tipoEnfermedads.ToList();
+            }
+            catch (Exception ex)
+            {
+                throw;
+
+            }
+        }
+
+        /// <summary>
+        /// Metodo para obtener los parentezcos
+        /// </summary>
+        /// <returns></returns>
+        public async Task<List<parentezco>> ObtenerParentezco()
+        {
+            try
+            {
+                var parentezcos = await _context.parentezcos.ToListAsync();
+
+                return parentezcos.ToList();
+            }
+            catch (Exception ex)
+            {
+                throw;
+
+            }
+        }
+
+        /// <summary>
+        /// Metodo para obtener los metodos anticonceptivos
+        /// </summary>
+        /// <returns></returns>
+        public async Task<List<metodo_anticonceptivo>> ObtenerMetodosAnticonceptivos()
+        {
+            try
+            {
+                var tipoEnfermedads = await _context.metodo_anticonceptivos.ToListAsync();
+
+                return tipoEnfermedads.ToList();
             }
             catch (Exception ex)
             {

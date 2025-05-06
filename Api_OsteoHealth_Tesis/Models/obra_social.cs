@@ -6,23 +6,16 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Api_OsteoHealth_Tesis.Models;
 
-[Table("ubicacion")]
-public partial class ubicacion
+[Table("obra_social")]
+public partial class obra_social
 {
     [Key]
-    public int idubicacion { get; set; }
+    public int idobrasocial { get; set; }
 
-    public int? dni { get; set; }
-
-    [StringLength(255)]
-    public string domicilio { get; set; }
-
+    [Required]
     [StringLength(50)]
-    public string barrio { get; set; }
+    public string nombre { get; set; }
 
-    [StringLength(50)]
-    public string localidad { get; set; }
-
-    [InverseProperty("idubicacionNavigation")]
+    [InverseProperty("idobrasocialNavigation")]
     public virtual ICollection<paciente> pacientes { get; set; } = new List<paciente>();
 }

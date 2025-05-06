@@ -2,6 +2,7 @@
 using Api_OsteoHealth_Tesis.Models;
 using Api_OsteoHealth_Tesis.Repository;
 using Asp.Versioning;
+using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -32,14 +33,14 @@ namespace Api_OsteoHealth_Tesis.Controllers
         /// <param name="loginRequest">parametros para logear</param>
         /// <returns></returns>
         [HttpPost("authenticate")]
-        public async Task<IActionResult> Authenticate([FromBody] LoginRequest loginRequest)
+        public async Task<IActionResult> Authenticate([FromBody] UsuarioLogin loginRequest)
         {
-            if (loginRequest == null || string.IsNullOrEmpty(loginRequest.Username) || string.IsNullOrEmpty(loginRequest.Password))
+            if (loginRequest == null || string.IsNullOrEmpty(loginRequest.username) || string.IsNullOrEmpty(loginRequest.password))
             {
                 return BadRequest(new { message = "Username y Password son obligatorios." });
             }
 
-            var (isValid, userId, role) = await _loginBL.ValidateUserAsync(loginRequest.Username, loginRequest.Password);
+            var (isValid, userId, role) = await _loginBL.ValidateUserAsync(loginRequest.username, loginRequest.password);
 
             if (isValid)
             {

@@ -1,4 +1,3 @@
-using Api_OsteoHealth_Tesis.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.IdentityModel.Tokens;
@@ -10,6 +9,7 @@ using System;
 using Api_OsteoHealth_Tesis.Repository;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Api_OsteoHealth_Tesis.Models;
 
 namespace Api_OsteoHealth_Tesis.Code
 {
@@ -18,7 +18,7 @@ namespace Api_OsteoHealth_Tesis.Code
     /// </summary>
     public class LoginBL:ILoginBL
     {
-        private readonly DbOsteoHealthContext _context;
+        private readonly OsteoHealthContext _context;
         private readonly IConfiguration _configuration;
 
         /// <summary>
@@ -28,9 +28,9 @@ namespace Api_OsteoHealth_Tesis.Code
         /// </summary>
         /// <param name="context"></param>
         /// <param name="configuration"></param>
-        public LoginBL(DbOsteoHealthContext context, IConfiguration configuration)
+        public LoginBL(OsteoHealthContext context, IConfiguration configuration)
         {
-            _context      = context;
+            _context = context;
             _configuration = configuration;
         }
 
@@ -78,7 +78,7 @@ namespace Api_OsteoHealth_Tesis.Code
                     expires: DateTime.UtcNow.AddHours(1),
                     signingCredentials: creds);
 
-                return new JwtSecurityTokenHandler().WriteToken(token);
+                return await Task.FromResult(new JwtSecurityTokenHandler().WriteToken(token));
             }
             catch (Exception ex)
             {

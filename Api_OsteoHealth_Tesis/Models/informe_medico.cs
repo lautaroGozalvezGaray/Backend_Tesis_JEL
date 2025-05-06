@@ -6,10 +6,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Api_OsteoHealth_Tesis.Models;
 
-public partial class estudio
+[Table("informe_medico")]
+public partial class informe_medico
 {
     [Key]
-    public int idestudios { get; set; }
+    public int idinformemedico { get; set; }
 
     public int idantecedenosologico { get; set; }
 
@@ -19,6 +20,6 @@ public partial class estudio
     public DateOnly? fecha { get; set; }
 
     [ForeignKey("idantecedenosologico")]
-    [InverseProperty("estudios")]
+    [InverseProperty("informe_medicos")]
     public virtual estudios_nosocologico idantecedenosologicoNavigation { get; set; }
 }

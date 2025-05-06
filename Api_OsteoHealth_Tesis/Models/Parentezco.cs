@@ -1,13 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 
 namespace Api_OsteoHealth_Tesis.Models;
 
-public partial class Parentezco
+[Table("parentezco")]
+public partial class parentezco
 {
-    public int IdParentezco { get; set; }
+    [Key]
+    public int idparentezco { get; set; }
 
-    public string Nombre { get; set; }
+    [StringLength(50)]
+    public string nombre { get; set; }
 
-    public virtual ICollection<TipoEnfermedadHereditarium> TipoEnfermedadHereditaria { get; set; } = new List<TipoEnfermedadHereditarium>();
+    [InverseProperty("idparentezcoNavigation")]
+    public virtual ICollection<tipo_enfermedad_hereditarium> tipo_enfermedad_hereditaria { get; set; } = new List<tipo_enfermedad_hereditarium>();
 }

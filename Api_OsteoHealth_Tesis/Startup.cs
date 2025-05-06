@@ -1,5 +1,4 @@
-﻿using Api_OsteoHealth_Tesis.Models;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -14,6 +13,7 @@ using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Api_OsteoHealth_Tesis.Models;
 
 
 namespace Api_OsteoHealth_Tesis
@@ -50,8 +50,11 @@ namespace Api_OsteoHealth_Tesis
         {
 
             // Configura ApplicationDbContext usando la cadena de conexión en appsettings.json
-            services.AddDbContext<DbOsteoHealthContext>(options =>
-                options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
+            var connectionString = Environment.GetEnvironmentVariable("ConexionSQL");
+
+            services.AddDbContext<OsteoHealthContext>(options =>
+                options.UseNpgsql(connectionString));
+
 
             services.AddApiVersioning(o => o.ReportApiVersions = true);
             services.AddCors();
@@ -132,7 +135,7 @@ namespace Api_OsteoHealth_Tesis
             {
                 using (var scope = serviceProvider.CreateScope())
                 {
-                    var db = scope.ServiceProvider.GetRequiredService<DbOsteoHealthContext>();
+                    var db = scope.ServiceProvider.GetRequiredService<OsteoHealthContext>();
                     try
                     {
                         db.Database.GetDbConnection().Open();

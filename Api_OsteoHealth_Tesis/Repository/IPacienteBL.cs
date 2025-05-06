@@ -9,11 +9,15 @@ namespace Api_OsteoHealth_Tesis.Repository
     /// </summary>
     public interface IPacienteBL
     {
-        Task<List<Paciente>> GetPacientes();
-        Task<List<Paciente>> GetPacientesByEdad(int edad);
-        Task<Paciente> GetPacienteById(int id);
-        Task<Paciente> InsertarPacienteNuevo(Paciente nuevoPaciente);
-        Task<string> ActualizarPaciente(int id, Paciente pacienteActualizado);
+        Task<List<paciente>> GetPacientes();
+        Task<List<paciente>> GetPacientesByEdad(int edad);
+        Task<paciente> GetPacienteById(int id);
+        Task<paciente> InsertarPacienteNuevo(paciente nuevoPaciente);
+        Task<string> ActualizarPaciente(int id, paciente pacienteActualizado);
         Task<string> EliminarPacientePorDni(int dni);
+        Task<List<obra_social>> ObtenerObrasSociales();
+        Task<List<tipo_enfermedad>> ObtenerTiposEnfermedad();
+        Task<List<parentezco>> ObtenerParentezco();
+        Task<List<metodo_anticonceptivo>> ObtenerMetodosAnticonceptivos();
     }
 }

@@ -1,53 +1,78 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 
 namespace Api_OsteoHealth_Tesis.Models;
 
-public partial class Sesion
+[Table("sesion")]
+public partial class sesion
 {
-    public int IdSesion { get; set; }
+    [Key]
+    public int idsesion { get; set; }
 
-    public int? Dni { get; set; }
+    public int? dni { get; set; }
 
-    public DateOnly? Fecha { get; set; }
+    public DateOnly? fecha { get; set; }
 
-    public int IdCaracteristicas { get; set; }
+    public int idcaracteristicas { get; set; }
 
-    public int IdEstadoDigestion { get; set; }
+    public int idestadodigestion { get; set; }
 
-    public int IdSueno { get; set; }
+    public int idsueno { get; set; }
 
-    public int IdAlimentacion { get; set; }
+    public int idalimentacion { get; set; }
 
-    public int IdHabitoToxico { get; set; }
+    public int idhabitotoxico { get; set; }
 
-    public int IdActividadLaboralProfesional { get; set; }
+    public int idactividadlaboralprofesional { get; set; }
 
-    public int IdSintomaClinico { get; set; }
+    public int idsintomaclinico { get; set; }
 
-    public int IdEscuchaOsteopatica { get; set; }
+    public int idescuchaosteopatica { get; set; }
 
-    public virtual ICollection<ActividadFisica> ActividadFisicas { get; set; } = new List<ActividadFisica>();
+    [InverseProperty("idsesionNavigation")]
+    public virtual ICollection<actividad_fisica> actividad_fisicas { get; set; } = new List<actividad_fisica>();
 
-    public virtual ICollection<ActividadLaboralProfesional> ActividadLaboralProfesionals { get; set; } = new List<ActividadLaboralProfesional>();
+    [InverseProperty("idsesionNavigation")]
+    public virtual ICollection<actividad_laboral_profesional> actividad_laboral_profesionals { get; set; } = new List<actividad_laboral_profesional>();
 
-    public virtual ICollection<Alimentacion> Alimentacions { get; set; } = new List<Alimentacion>();
+    [InverseProperty("idsesionNavigation")]
+    public virtual ICollection<alimentacion> alimentacions { get; set; } = new List<alimentacion>();
 
-    public virtual ICollection<Digestion> Digestions { get; set; } = new List<Digestion>();
+    [InverseProperty("idsesionNavigation")]
+    public virtual ICollection<digestion> digestions { get; set; } = new List<digestion>();
 
-    public virtual Paciente DniNavigation { get; set; }
+    [ForeignKey("dni")]
+    [InverseProperty("sesions")]
+    public virtual paciente dniNavigation { get; set; }
 
-    public virtual ICollection<EstudiosNosocologico> EstudiosNosocologicos { get; set; } = new List<EstudiosNosocologico>();
+    [InverseProperty("idsesionNavigation")]
+    public virtual ICollection<estudios_nosocologico> estudios_nosocologicos { get; set; } = new List<estudios_nosocologico>();
 
-    public virtual ICollection<EvaluacionBiomecanica> EvaluacionBiomecanicas { get; set; } = new List<EvaluacionBiomecanica>();
+    [InverseProperty("idsesionNavigation")]
+    public virtual ICollection<evaluacion_biomecanica> evaluacion_biomecanicas { get; set; } = new List<evaluacion_biomecanica>();
 
-    public virtual ICollection<HabitosToxico> HabitosToxicos { get; set; } = new List<HabitosToxico>();
+    [InverseProperty("idsesionNavigation")]
+    public virtual ICollection<habitos_toxico> habitos_toxicos { get; set; } = new List<habitos_toxico>();
 
-    public virtual Caracteristica IdCaracteristicasNavigation { get; set; }
+    [ForeignKey("idcaracteristicas")]
+    [InverseProperty("sesions")]
+    public virtual caracteristica idcaracteristicasNavigation { get; set; }
 
-    public virtual EstadoDigestion IdEstadoDigestionNavigation { get; set; }
+    [ForeignKey("idestadodigestion")]
+    [InverseProperty("sesions")]
+    public virtual estado_digestion idestadodigestionNavigation { get; set; }
 
-    public virtual Sueno IdSuenoNavigation { get; set; }
+    [ForeignKey("idsintomaclinico")]
+    [InverseProperty("sesions")]
+    public virtual sintoma_clinico idsintomaclinicoNavigation { get; set; }
 
-    public virtual ICollection<TratamientoEfectuado> TratamientoEfectuados { get; set; } = new List<TratamientoEfectuado>();
+    [ForeignKey("idsueno")]
+    [InverseProperty("sesions")]
+    public virtual sueno idsuenoNavigation { get; set; }
+
+    [InverseProperty("idsesionNavigation")]
+    public virtual ICollection<tratamiento_efectuado> tratamiento_efectuados { get; set; } = new List<tratamiento_efectuado>();
 }
