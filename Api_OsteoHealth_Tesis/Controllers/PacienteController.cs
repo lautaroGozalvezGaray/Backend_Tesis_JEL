@@ -204,7 +204,7 @@ namespace Api_OsteoHealth_Tesis.Controllers
         {
             try
             {
-                var ListaParantezcos = await _pacienteBL.ObtenerTiposEnfermedad();
+                var ListaParantezcos = await _pacienteBL.ObtenerParentezco();
                 return Ok(ListaParantezcos);
             }
             catch (Exception ex)
