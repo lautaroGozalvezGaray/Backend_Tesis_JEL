@@ -6,16 +6,15 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Api_OsteoHealth_Tesis.Models;
 
-[Table("sexo")]
-public partial class sexo
+[Table("tipo_enfermedad")]
+public partial class tipo_enfermedad
 {
     [Key]
-    public int idsexo { get; set; }
+    public int idenfermedad { get; set; }
 
-    [Required]
     [StringLength(50)]
     public string nombre { get; set; }
 
-    [InverseProperty("sexoNavigation")]
-    public virtual ICollection<paciente> pacientes { get; set; } = new List<paciente>();
+    [InverseProperty("idenfermedadNavigation")]
+    public virtual ICollection<tipo_enfermedad_hereditarium> tipo_enfermedad_hereditaria { get; set; } = new List<tipo_enfermedad_hereditarium>();
 }

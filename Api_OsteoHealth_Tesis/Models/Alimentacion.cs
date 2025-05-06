@@ -1,29 +1,43 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 
 namespace Api_OsteoHealth_Tesis.Models;
 
-public partial class Alimentacion
+[Table("alimentacion")]
+public partial class alimentacion
 {
-    public int IdAlimentacion { get; set; }
+    [Key]
+    public int idalimentacion { get; set; }
 
-    public int IdSesion { get; set; }
+    public int idsesion { get; set; }
 
-    public int? Porcentaje { get; set; }
+    public int? porcentaje { get; set; }
 
-    public string NivelCoccion { get; set; }
+    [StringLength(50)]
+    public string nivelcoccion { get; set; }
 
-    public int IdFormaIngesta { get; set; }
+    public int idformaingesta { get; set; }
 
-    public int IdComidaPredominante { get; set; }
+    public int idcomidapredominante { get; set; }
 
-    public int IdClaseComidaPredominante { get; set; }
+    public int idclasecomidapredominante { get; set; }
 
-    public virtual ClaseComidaPredominante IdClaseComidaPredominanteNavigation { get; set; }
+    [ForeignKey("idclasecomidapredominante")]
+    [InverseProperty("alimentacions")]
+    public virtual clase_comida_predominante idclasecomidapredominanteNavigation { get; set; }
 
-    public virtual ComidaPredominante IdComidaPredominanteNavigation { get; set; }
+    [ForeignKey("idcomidapredominante")]
+    [InverseProperty("alimentacions")]
+    public virtual comida_predominante idcomidapredominanteNavigation { get; set; }
 
-    public virtual FormaIngestum IdFormaIngestaNavigation { get; set; }
+    [ForeignKey("idformaingesta")]
+    [InverseProperty("alimentacions")]
+    public virtual forma_ingestum idformaingestaNavigation { get; set; }
 
-    public virtual Sesion IdSesionNavigation { get; set; }
+    [ForeignKey("idsesion")]
+    [InverseProperty("alimentacions")]
+    public virtual sesion idsesionNavigation { get; set; }
 }

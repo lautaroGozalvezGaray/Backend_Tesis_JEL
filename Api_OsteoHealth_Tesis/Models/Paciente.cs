@@ -1,61 +1,84 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 
 namespace Api_OsteoHealth_Tesis.Models;
 
-public partial class Paciente
+[Table("paciente")]
+public partial class paciente
 {
-    public int Dni { get; set; }
+    [Key]
+    public int dni { get; set; }
 
-    public string Nombre { get; set; }
+    [StringLength(50)]
+    public string nombre { get; set; }
 
-    public string Apellido { get; set; }
+    [StringLength(50)]
+    public string apellido { get; set; }
 
-    public DateOnly? FechaIngreso { get; set; }
+    public DateOnly? fechaingreso { get; set; }
 
-    public DateOnly? FechaNacimiento { get; set; }
+    public DateOnly? fechanacimiento { get; set; }
 
-    public int? Edad { get; set; }
+    public int? edad { get; set; }
 
-    public string Estado { get; set; }
+    [StringLength(20)]
+    public string estado { get; set; }
 
-    public decimal? Peso { get; set; }
+    [Precision(5, 2)]
+    public decimal? peso { get; set; }
 
-    public decimal? Altura { get; set; }
+    [Precision(5, 2)]
+    public decimal? altura { get; set; }
 
-    public int? Sexo { get; set; }
+    public int? sexo { get; set; }
 
-    public string Telefono { get; set; }
+    [StringLength(20)]
+    public string telefono { get; set; }
 
-    public string Email { get; set; }
+    [StringLength(50)]
+    public string email { get; set; }
 
-    public int IdObraSocial { get; set; }
+    public int idobrasocial { get; set; }
 
-    public int IdImagen { get; set; }
+    public int idimagen { get; set; }
 
-    public int IdUbicacion { get; set; }
+    public int idubicacion { get; set; }
 
-    public int IdInformacionAdicional { get; set; }
+    public int idinformacionadicional { get; set; }
 
-    public int IdEnfermedadHereditaria { get; set; }
+    public int idenfermedadhereditaria { get; set; }
 
-    public int IdAntecedeToco { get; set; }
+    public int idantecedetoco { get; set; }
 
-    public virtual ICollection<AntecedentesTocoginecologico> AntecedentesTocoginecologicos { get; set; } = new List<AntecedentesTocoginecologico>();
+    [InverseProperty("dniNavigation")]
+    public virtual ICollection<antecedentes_tocoginecologico> antecedentes_tocoginecologicos { get; set; } = new List<antecedentes_tocoginecologico>();
 
-    public virtual ImagenPaciente IdImagenNavigation { get; set; }
+    [ForeignKey("idimagen")]
+    [InverseProperty("pacientes")]
+    public virtual imagen_paciente idimagenNavigation { get; set; }
 
-    public virtual InformacionAdicional IdInformacionAdicionalNavigation { get; set; }
+    [ForeignKey("idinformacionadicional")]
+    [InverseProperty("pacientes")]
+    public virtual informacion_adicional idinformacionadicionalNavigation { get; set; }
 
-    public virtual ObraSocial IdObraSocialNavigation { get; set; }
+    [ForeignKey("idobrasocial")]
+    [InverseProperty("pacientes")]
+    public virtual obra_social idobrasocialNavigation { get; set; }
 
-    public virtual Ubicacion IdUbicacionNavigation { get; set; }
+    [ForeignKey("idubicacion")]
+    [InverseProperty("pacientes")]
+    public virtual ubicacion idubicacionNavigation { get; set; }
 
-    public virtual ICollection<Sesion> Sesions { get; set; } = new List<Sesion>();
+    [InverseProperty("dniNavigation")]
+    public virtual ICollection<sesion> sesions { get; set; } = new List<sesion>();
 
-    public virtual Sexo SexoNavigation { get; set; }
+    [ForeignKey("sexo")]
+    [InverseProperty("pacientes")]
+    public virtual sexo sexoNavigation { get; set; }
 
-    public virtual ICollection<TipoEnfermedadHereditarium> TipoEnfermedadHereditaria { get; set; } = new List<TipoEnfermedadHereditarium>();
-
-    public virtual ICollection<Turno> Turnos { get; set; } = new List<Turno>();
+    [InverseProperty("dniNavigation")]
+    public virtual ICollection<tipo_enfermedad_hereditarium> tipo_enfermedad_hereditaria { get; set; } = new List<tipo_enfermedad_hereditarium>();
 }

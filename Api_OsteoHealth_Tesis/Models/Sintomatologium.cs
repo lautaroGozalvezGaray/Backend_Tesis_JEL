@@ -1,13 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 
 namespace Api_OsteoHealth_Tesis.Models;
 
-public partial class Sintomatologium
+public partial class sintomatologium
 {
-    public int IdSintomatologia { get; set; }
+    [Key]
+    public int idsintomatologia { get; set; }
 
-    public string Nombre { get; set; }
+    [Required]
+    [StringLength(50)]
+    public string nombre { get; set; }
 
-    public virtual ICollection<HabitosToxico> HabitosToxicos { get; set; } = new List<HabitosToxico>();
+    [InverseProperty("idsintomatologiaNavigation")]
+    public virtual ICollection<habitos_toxico> habitos_toxicos { get; set; } = new List<habitos_toxico>();
 }

@@ -6,16 +6,16 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Api_OsteoHealth_Tesis.Models;
 
-[Table("sexo")]
-public partial class sexo
+[Table("sintoma_clinico")]
+public partial class sintoma_clinico
 {
     [Key]
-    public int idsexo { get; set; }
+    public int idsintomaclinico { get; set; }
 
     [Required]
     [StringLength(50)]
     public string nombre { get; set; }
 
-    [InverseProperty("sexoNavigation")]
-    public virtual ICollection<paciente> pacientes { get; set; } = new List<paciente>();
+    [InverseProperty("idsintomaclinicoNavigation")]
+    public virtual ICollection<sesion> sesions { get; set; } = new List<sesion>();
 }

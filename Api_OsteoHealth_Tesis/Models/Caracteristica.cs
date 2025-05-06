@@ -1,21 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 
 namespace Api_OsteoHealth_Tesis.Models;
 
-public partial class Caracteristica
+public partial class caracteristica
 {
-    public int IdCaracteristicas { get; set; }
+    [Key]
+    public int idcaracteristicas { get; set; }
 
-    public int? Edad { get; set; }
+    public int? edad { get; set; }
 
-    public decimal? Peso { get; set; }
+    [Precision(5, 2)]
+    public decimal? peso { get; set; }
 
-    public decimal? Altura { get; set; }
+    [Precision(5, 2)]
+    public decimal? altura { get; set; }
 
-    public decimal? PorcentajeGrasa { get; set; }
+    [Precision(5, 2)]
+    public decimal? porcentajengrasa { get; set; }
 
-    public decimal? PorcentajeMasaMuscular { get; set; }
+    [Precision(5, 2)]
+    public decimal? porcentajemasamuscular { get; set; }
 
-    public virtual ICollection<Sesion> Sesions { get; set; } = new List<Sesion>();
+    [InverseProperty("idcaracteristicasNavigation")]
+    public virtual ICollection<sesion> sesions { get; set; } = new List<sesion>();
 }

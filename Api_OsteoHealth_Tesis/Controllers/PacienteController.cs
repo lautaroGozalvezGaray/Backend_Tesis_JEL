@@ -35,7 +35,7 @@ namespace Api_OsteoHealth_Tesis.Controllers
         /// </summary>
         /// <returns>Lista de pacientes</returns>
         [HttpGet]
-        public async Task<ActionResult<List<Paciente>>> GetPacientes()
+        public async Task<ActionResult<List<paciente>>> GetPacientes()
         {
             try
             {
@@ -54,7 +54,7 @@ namespace Api_OsteoHealth_Tesis.Controllers
         /// <param name="edad">Edad de los pacientes</param>
         /// <returns>Lista de pacientes con la edad especificada</returns>
         [HttpGet("edad/{edad}")]
-        public async Task<ActionResult<List<Paciente>>> GetPacientesByEdad(int edad)
+        public async Task<ActionResult<List<paciente>>> GetPacientesByEdad(int edad)
         {
             try
             {
@@ -74,7 +74,7 @@ namespace Api_OsteoHealth_Tesis.Controllers
         /// <param name="id">ID del paciente</param>
         /// <returns>El paciente encontrado o NotFound</returns>
         [HttpGet("{id}")]
-        public async Task<ActionResult<Paciente>> GetPacienteById(int id)
+        public async Task<ActionResult<paciente>> GetPacienteById(int id)
         {
             try
             {
@@ -96,7 +96,7 @@ namespace Api_OsteoHealth_Tesis.Controllers
         /// <param name="nuevoPaciente">Datos del nuevo paciente</param>
         /// <returns>El paciente insertado</returns>
         [HttpPost]
-        public async Task<ActionResult<Paciente>> InsertarPacienteNuevo(Paciente nuevoPaciente)
+        public async Task<ActionResult<paciente>> InsertarPacienteNuevo(paciente nuevoPaciente)
         {
             try
             {
@@ -104,7 +104,7 @@ namespace Api_OsteoHealth_Tesis.Controllers
                     return BadRequest("Los datos del paciente son inválidos.");
 
                 var pacienteInsertado = await _pacienteBL.InsertarPacienteNuevo(nuevoPaciente);
-                return CreatedAtAction(nameof(GetPacienteById), new { id = pacienteInsertado.Dni }, pacienteInsertado);
+                return CreatedAtAction(nameof(GetPacienteById), new { id = pacienteInsertado.dni }, pacienteInsertado);
             }
             catch (Exception ex)
             {
@@ -121,7 +121,7 @@ namespace Api_OsteoHealth_Tesis.Controllers
         /// <param name="pacienteActualizado">Datos actualizados del paciente</param>
         /// <returns>Mensaje de estado de la actualización</returns>
         [HttpPut("{id}")]
-        public async Task<ActionResult<string>> ActualizarPaciente(int id, Paciente pacienteActualizado)
+        public async Task<ActionResult<string>> ActualizarPaciente(int id, paciente pacienteActualizado)
         {
             try
             {
@@ -159,5 +159,76 @@ namespace Api_OsteoHealth_Tesis.Controllers
             }
         }
 
+        /// <summary>
+        /// Endpoint para obtener el listado de obras sociales
+        /// </summary>
+        /// <returns>Lista de pacientes</returns>
+        [HttpGet("ObtenerObrasSociales")]
+        public async Task<ActionResult<List<obra_social>>> GetObrasSociales()
+        {
+            try
+            {
+                var obraSocials = await _pacienteBL.ObtenerObrasSociales();
+                return Ok(obraSocials);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"{ex.Message}");
+            }
+        }
+
+        /// <summary>
+        /// Endpoint para obtener el listado de tipos de enfermedades
+        /// </summary>
+        /// <returns>Lista de pacientes</returns>
+        [HttpGet("ObtenerTiposEnfermedades")]
+        public async Task<ActionResult<List<tipo_enfermedad>>> GetTipoEnfermedades()
+        {
+            try
+            {
+                var tipoEnfermedads = await _pacienteBL.ObtenerTiposEnfermedad();
+                return Ok(tipoEnfermedads);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"{ex.Message}");
+            }
+        }
+
+        /// <summary>
+        /// Endpoint para obtener el listado de parentezcos
+        /// </summary>
+        /// <returns>Lista de pacientes</returns>
+        [HttpGet("ObtenerListadoParentezcos")]
+        public async Task<ActionResult<List<parentezco>>> GetParentezcos()
+        {
+            try
+            {
+                var ListaParantezcos = await _pacienteBL.ObtenerTiposEnfermedad();
+                return Ok(ListaParantezcos);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"{ex.Message}");
+            }
+        }
+
+        /// <summary>
+        /// Endpoint para obtener el lsitado de metodos anticonceptivos
+        /// </summary>
+        /// <returns>Lista de pacientes</returns>
+        [HttpGet("ObtenerMetodosAnticonceptivos")]
+        public async Task<ActionResult<List<metodo_anticonceptivo>>> GetMetodosAnticonceptivos()
+        {
+            try
+            {
+                var MetodoAnticonceptivo = await _pacienteBL.ObtenerMetodosAnticonceptivos();
+                return Ok(MetodoAnticonceptivo);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"{ex.Message}");
+            }
+        }
     }
 }

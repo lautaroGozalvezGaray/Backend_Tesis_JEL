@@ -6,11 +6,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Api_OsteoHealth_Tesis.Models;
 
-[Table("sentadilla")]
-public partial class sentadilla
+[Table("paso_obstaculo")]
+public partial class paso_obstaculo
 {
     [Key]
-    public int idsentadilla { get; set; }
+    public int idpasoobstaculo { get; set; }
 
     public int idevaluacionbiomecanica { get; set; }
 
@@ -18,12 +18,12 @@ public partial class sentadilla
     public string nombre { get; set; }
 
     [Precision(5, 2)]
-    public decimal? puntuacion { get; set; }
+    public decimal? desempeoderecho { get; set; }
 
     [Precision(5, 2)]
-    public decimal? desempeno { get; set; }
+    public decimal? desempeoizquierdo { get; set; }
 
     [ForeignKey("idevaluacionbiomecanica")]
-    [InverseProperty("sentadillas")]
+    [InverseProperty("paso_obstaculos")]
     public virtual evaluacion_biomecanica idevaluacionbiomecanicaNavigation { get; set; }
 }
