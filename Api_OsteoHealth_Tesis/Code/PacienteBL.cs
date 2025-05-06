@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -167,13 +168,19 @@ namespace Api_OsteoHealth_Tesis.code
         /// Metodo para eliminar un paciente por su dni
         /// </summary>
         /// <returns></returns>
-        public async Task<List<obra_social>> ObtenerObrasSociales()
+        public async Task<List<ObraSocialDto>> ObtenerObrasSociales()
         {
             try
             {
-                var obraSociales = await _context.obra_socials.ToListAsync();
+                var lista = await _context.obra_socials
+                .Select(o => new ObraSocialDto
+                {
+                    idobrasocial = o.idobrasocial,
+                    nombre = o.nombre
+                })
+                .ToListAsync();
 
-                return obraSociales.ToList();
+                return lista;
             }
             catch (Exception ex)
             {
@@ -186,13 +193,19 @@ namespace Api_OsteoHealth_Tesis.code
         /// Metodo para obtener el lsitado de enfermedades
         /// </summary>
         /// <returns></returns>
-        public async Task<List<tipo_enfermedad>> ObtenerTiposEnfermedad()
+        public async Task<List<TipoEnfermedadDto>> ObtenerTiposEnfermedad()
         {
             try
             {
-                var tipoEnfermedads = await _context.tipo_enfermedads.ToListAsync();
+                var tipoEnfermedads = await _context.tipo_enfermedads
+                    .Select(o => new TipoEnfermedadDto
+                    {
+                                     idenfermedad = o.idenfermedad,
+                                     nombre = o.nombre
+                                 })
+                    .ToListAsync();
 
-                return tipoEnfermedads.ToList();
+                return tipoEnfermedads;
             }
             catch (Exception ex)
             {
@@ -205,13 +218,19 @@ namespace Api_OsteoHealth_Tesis.code
         /// Metodo para obtener los parentezcos
         /// </summary>
         /// <returns></returns>
-        public async Task<List<parentezco>> ObtenerParentezco()
+        public async Task<List<ParentezcoDto>> ObtenerParentezco()
         {
             try
             {
-                var parentezcos = await _context.parentezcos.ToListAsync();
+                var parentezcos = await _context.parentezcos.
+                    Select(o => new ParentezcoDto
+                    {
+                        idparentezco = o.idparentezco,
+                        nombre = o.nombre
+                    })
+                    .ToListAsync();
 
-                return parentezcos.ToList();
+                return parentezcos;
             }
             catch (Exception ex)
             {
@@ -224,13 +243,19 @@ namespace Api_OsteoHealth_Tesis.code
         /// Metodo para obtener los metodos anticonceptivos
         /// </summary>
         /// <returns></returns>
-        public async Task<List<metodo_anticonceptivo>> ObtenerMetodosAnticonceptivos()
+        public async Task<List<MetodoAnticonceptivoDto>> ObtenerMetodosAnticonceptivos()
         {
             try
             {
-                var tipoEnfermedads = await _context.metodo_anticonceptivos.ToListAsync();
+                var tipoEnfermedads = await _context.metodo_anticonceptivos.
+                    Select(o => new MetodoAnticonceptivoDto
+                    {
+                        idmetodo = o.idmetodo,
+                        nombre = o.nombre
+                    })
+                    .ToListAsync();
 
-                return tipoEnfermedads.ToList();
+                return tipoEnfermedads;
             }
             catch (Exception ex)
             {
@@ -238,5 +263,98 @@ namespace Api_OsteoHealth_Tesis.code
 
             }
         }
+
+        /// <summary>
+        /// Metodo para agregar una obra social
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        public async Task AgregarObraSocial(ObraSocialDto dto)
+        {
+            try
+            {
+                var entity = new obra_social
+                {
+                    nombre = dto.nombre
+                };
+
+                await _context.obra_socials.AddAsync(entity);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Metodo para agregar un tipo de enfermedad
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        public async Task AgregarTipoEnfermedad(TipoEnfermedadDto dto)
+        {
+            try
+            {
+                var entity = new tipo_enfermedad
+                {
+                    nombre = dto.nombre
+                };
+
+                await _context.tipo_enfermedads.AddAsync(entity);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Metodo para agregar un nuevo parentezco
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        public async Task AgregarParentezco(ParentezcoDto dto)
+        {
+            try
+            {
+                var entity = new parentezco
+                {
+                    nombre = dto.nombre
+                };
+
+                await _context.parentezcos.AddAsync(entity);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Metodo para agregar un nuevo metodo anticonceptivo
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        public async Task AgregarMetodoAnticonceptivo(MetodoAnticonceptivoDto dto)
+        {
+            try
+            {
+                var entity = new metodo_anticonceptivo
+                {
+                    nombre = dto.nombre
+                };
+
+                await _context.metodo_anticonceptivos.AddAsync(entity);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
     }
 }

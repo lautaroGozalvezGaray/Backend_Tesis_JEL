@@ -15,9 +15,13 @@ namespace Api_OsteoHealth_Tesis.Repository
         Task<paciente> InsertarPacienteNuevo(paciente nuevoPaciente);
         Task<string> ActualizarPaciente(int id, paciente pacienteActualizado);
         Task<string> EliminarPacientePorDni(int dni);
-        Task<List<obra_social>> ObtenerObrasSociales();
-        Task<List<tipo_enfermedad>> ObtenerTiposEnfermedad();
-        Task<List<parentezco>> ObtenerParentezco();
-        Task<List<metodo_anticonceptivo>> ObtenerMetodosAnticonceptivos();
+        Task<List<ObraSocialDto>> ObtenerObrasSociales();
+        Task<List<TipoEnfermedadDto>> ObtenerTiposEnfermedad();
+        Task<List<ParentezcoDto>> ObtenerParentezco();
+        Task<List<MetodoAnticonceptivoDto>> ObtenerMetodosAnticonceptivos();
+        Task AgregarTipoEnfermedad(TipoEnfermedadDto dto);
+        Task AgregarParentezco(ParentezcoDto dto);
+        Task AgregarMetodoAnticonceptivo(MetodoAnticonceptivoDto dto);
+        Task AgregarObraSocial(ObraSocialDto dto);
     }
 }

@@ -164,7 +164,7 @@ namespace Api_OsteoHealth_Tesis.Controllers
         /// </summary>
         /// <returns>Lista de pacientes</returns>
         [HttpGet("ObtenerObrasSociales")]
-        public async Task<ActionResult<List<obra_social>>> GetObrasSociales()
+        public async Task<ActionResult<List<ObraSocialDto>>> GetObrasSociales()
         {
             try
             {
@@ -182,7 +182,7 @@ namespace Api_OsteoHealth_Tesis.Controllers
         /// </summary>
         /// <returns>Lista de pacientes</returns>
         [HttpGet("ObtenerTiposEnfermedades")]
-        public async Task<ActionResult<List<tipo_enfermedad>>> GetTipoEnfermedades()
+        public async Task<ActionResult<List<TipoEnfermedadDto>>> GetTipoEnfermedades()
         {
             try
             {
@@ -200,7 +200,7 @@ namespace Api_OsteoHealth_Tesis.Controllers
         /// </summary>
         /// <returns>Lista de pacientes</returns>
         [HttpGet("ObtenerListadoParentezcos")]
-        public async Task<ActionResult<List<parentezco>>> GetParentezcos()
+        public async Task<ActionResult<List<ParentezcoDto>>> GetParentezcos()
         {
             try
             {
@@ -218,7 +218,7 @@ namespace Api_OsteoHealth_Tesis.Controllers
         /// </summary>
         /// <returns>Lista de pacientes</returns>
         [HttpGet("ObtenerMetodosAnticonceptivos")]
-        public async Task<ActionResult<List<metodo_anticonceptivo>>> GetMetodosAnticonceptivos()
+        public async Task<ActionResult<List<MetodoAnticonceptivoDto>>> GetMetodosAnticonceptivos()
         {
             try
             {
@@ -230,5 +230,74 @@ namespace Api_OsteoHealth_Tesis.Controllers
                 return StatusCode(500, $"{ex.Message}");
             }
         }
+
+        /// <summary>
+        /// Endpoint para agregar una nueva obra social
+        /// </summary>
+        [HttpPost("AgregarObraSocial")]
+        public async Task<IActionResult> PostObraSocial([FromBody] ObraSocialDto dto)
+        {
+            try
+            {
+                await _pacienteBL.AgregarObraSocial(dto);
+                return Ok("Obra social agregada correctamente.");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"{ex.Message}");
+            }
+        }
+
+        /// <summary>
+        /// Endpoint para agregar un nuevo tipo de enfermedad
+        /// </summary>
+        [HttpPost("AgregarTipoEnfermedad")]
+        public async Task<IActionResult> PostTipoEnfermedad([FromBody] TipoEnfermedadDto dto)
+        {
+            try
+            {
+                await _pacienteBL.AgregarTipoEnfermedad(dto);
+                return Ok("Tipo de enfermedad agregado correctamente.");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"{ex.Message}");
+            }
+        }
+
+        /// <summary>
+        /// Endpoint para agregar un nuevo parentezco
+        /// </summary>
+        [HttpPost("AgregarParentezco")]
+        public async Task<IActionResult> PostParentezco([FromBody] ParentezcoDto dto)
+        {
+            try
+            {
+                await _pacienteBL.AgregarParentezco(dto);
+                return Ok("Parentezco agregado correctamente.");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"{ex.Message}");
+            }
+        }
+
+        /// <summary>
+        /// Endpoint para agregar un nuevo método anticonceptivo
+        /// </summary>
+        [HttpPost("AgregarMetodoAnticonceptivo")]
+        public async Task<IActionResult> PostMetodoAnticonceptivo([FromBody] MetodoAnticonceptivoDto dto)
+        {
+            try
+            {
+                await _pacienteBL.AgregarMetodoAnticonceptivo(dto);
+                return Ok("Método anticonceptivo agregado correctamente.");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"{ex.Message}");
+            }
+        }
+
     }
 }

@@ -18,3 +18,9 @@ public partial class parentezco
     [InverseProperty("idparentezcoNavigation")]
     public virtual ICollection<tipo_enfermedad_hereditarium> tipo_enfermedad_hereditaria { get; set; } = new List<tipo_enfermedad_hereditarium>();
 }
+
+public class ParentezcoDto
+{
+    public int idparentezco { get; set; }
+    public string nombre { get; set; }
+}
