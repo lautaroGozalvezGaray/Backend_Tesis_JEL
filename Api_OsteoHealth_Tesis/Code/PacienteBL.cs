@@ -97,7 +97,6 @@ namespace Api_OsteoHealth_Tesis.code
                 throw;
             }
         }
-
         /// <summary>
         /// Actualiza los datas de un paciente
         /// </summary>
@@ -112,9 +111,24 @@ namespace Api_OsteoHealth_Tesis.code
                 if (paciente == null)
                     return "Paciente no encontrado";
 
+                paciente.Dni = pacienteActualizado.Dni;
                 paciente.Nombre = pacienteActualizado.Nombre;
+                paciente.Apellido = pacienteActualizado.Apellido;
+                paciente.FechaNacimiento = pacienteActualizado.FechaNacimiento;
+                paciente.FechaIngreso = pacienteActualizado.FechaIngreso;
                 paciente.Edad = pacienteActualizado.Edad;
-                // otros campos...
+                paciente.Estado = pacienteActualizado.Estado;
+                paciente.Peso = pacienteActualizado.Peso;
+                paciente.Altura = pacienteActualizado.Altura;
+                paciente.Sexo = pacienteActualizado.Sexo;
+                paciente.Telefono = pacienteActualizado.Telefono;
+                paciente.Email = pacienteActualizado.Email;
+                paciente.IdAntecedeToco = pacienteActualizado.IdObraSocial;
+                paciente.IdImagen = pacienteActualizado.IdImagen;
+                paciente.IdUbicacion = pacienteActualizado.IdUbicacion;
+                paciente.IdInformacionAdicional = pacienteActualizado.IdInformacionAdicional;
+                paciente.IdEnfermedadHereditaria = pacienteActualizado.IdEnfermedadHereditaria;
+                paciente.IdAntecedeToco = pacienteActualizado.IdAntecedeToco;
 
                 await _context.SaveChangesAsync();
                 return "Paciente Actualizado";
