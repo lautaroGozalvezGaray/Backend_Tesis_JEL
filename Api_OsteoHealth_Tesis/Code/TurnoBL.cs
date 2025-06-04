@@ -53,12 +53,32 @@ namespace Api_OsteoHealth_Tesis.Code
 
 
         /// <summary>
-        /// Listar turnos por paciente
+        /// Agrega un turno si no hay superposición de horario (±15 min)
         /// </summary>
         /// <param name="nuevoTurno"></param>
-        /// <returns></returns>
+        /// <returns>Id del turno agregado o -1 si hay conflicto</returns>
         public async Task<int> AgregarTurno(TurnoDto nuevoTurno)
         {
+            DateOnly fechaTurno = nuevoTurno.fecha;
+            TimeOnly horaTurno = nuevoTurno.hora;
+
+            // Definir margen de ±15 minutos
+            TimeSpan margen = TimeSpan.FromMinutes(15);
+            TimeOnly horaDesde = horaTurno.AddMinutes(-15);
+            TimeOnly horaHasta = horaTurno.AddMinutes(15);
+
+            // Buscar turnos existentes en ese rango horario para el mismo usuario
+            bool existeSolapamiento = await _context.turnos.AnyAsync(t =>
+                t.idusuario == nuevoTurno.idusuario &&
+                t.fecha == fechaTurno &&
+                t.hora >= horaDesde &&
+                t.hora <= horaHasta
+            );
+
+            if (existeSolapamiento)
+                return -1; // Código especial para indicar conflicto de horario
+
+            // Si no hay solapamiento, agregar el nuevo turno
             var turno = new turno
             {
                 fecha = nuevoTurno.fecha,
@@ -67,7 +87,7 @@ namespace Api_OsteoHealth_Tesis.Code
                 estadoturno = nuevoTurno.estadoturno,
                 observaciones = nuevoTurno.observaciones,
                 idusuario = nuevoTurno.idusuario,
-                idpaciente = nuevoTurno.idpaciente ?? 0, // usar 0 si es externo
+                idpaciente = nuevoTurno.idpaciente ?? 0,
                 nombrepaciente = nuevoTurno.nombrepaciente,
                 apellidopaciente = nuevoTurno.apellidopaciente,
                 dnipaciente = nuevoTurno.dnipaciente
@@ -75,6 +95,7 @@ namespace Api_OsteoHealth_Tesis.Code
 
             _context.turnos.Add(turno);
             await _context.SaveChangesAsync();
+
             return turno.dturno;
         }
 
