@@ -73,8 +73,6 @@ namespace Api_OsteoHealth_Tesis
 
             services.AddSwaggerGen(c =>
             {
-
-
                 c.SwaggerDoc("1.0", new OpenApiInfo
                 {
                     Title = "Api OsteoHealth",
@@ -85,8 +83,33 @@ namespace Api_OsteoHealth_Tesis
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 c.IncludeXmlComments(xmlPath);
 
+                // 🔐 Autenticación JWT para Swagger
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.ApiKey,
+                    Scheme = "Bearer",
+                    BearerFormat = "JWT",
+                    In = ParameterLocation.Header,
+                    Description = "Ingrese el token JWT como: Bearer {token}"
+                });
 
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            }
+                        },
+                        Array.Empty<string>()
+                    }
+                });
             });
+
 
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
