@@ -70,12 +70,19 @@ namespace Api_OsteoHealth_Tesis.Code
                     new Claim(JwtRegisteredClaimNames.Iat, DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString())
                 };
 
+                var argentinaTime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow,
+                                    TimeZoneInfo.FindSystemTimeZoneById("Argentina Standard Time"));
+                var expiration = argentinaTime.AddHours(4);
+
+                // convertir a UTC nuevamente para cumplir con JWT
+                var expirationUtc = TimeZoneInfo.ConvertTimeToUtc(expiration);
+
                 // Crear el token JWT
                 var token = new JwtSecurityToken(
                     issuer: issuer,
                     audience: audience,
                     claims: claims,
-                    expires: DateTime.UtcNow.AddHours(1),
+                    expires: expirationUtc,
                     signingCredentials: creds);
 
                 return await Task.FromResult(new JwtSecurityTokenHandler().WriteToken(token));
