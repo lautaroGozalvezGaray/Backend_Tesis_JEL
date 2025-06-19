@@ -1,12 +1,13 @@
 ﻿using Api_OsteoHealth_Tesis.Code;
 using Api_OsteoHealth_Tesis.Models;
+using Api_OsteoHealth_Tesis.ModelsCustom;
+using Api_OsteoHealth_Tesis.Repository;
 using Asp.Versioning;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using System;
-using Api_OsteoHealth_Tesis.Repository;
-using Api_OsteoHealth_Tesis.ModelsCustom;
 
 namespace Api_OsteoHealth_Tesis.Controllers
 {
@@ -16,6 +17,7 @@ namespace Api_OsteoHealth_Tesis.Controllers
     [ApiVersion("1.0")]
     [Route("api/{version:ApiVersion}/[controller]")]
     [ApiController]
+    [Authorize]
     public class TurnoController:ControllerBase
     {
         private readonly ITurnoBL _turnoBL;
