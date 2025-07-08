@@ -19,7 +19,7 @@ public partial class OsteoHealthContext : DbContext
 
     public virtual DbSet<alimentacion> alimentacions { get; set; }
 
-    public virtual DbSet<antecedentes_tocoginecologico> antecedentes_tocoginecologicos { get; set; }
+    public virtual DbSet<antecedentes_tocoginecologicos> antecedentes_tocoginecologicos { get; set; }
 
     public virtual DbSet<calidad_percibida_sueno> calidad_percibida_suenos { get; set; }
 
@@ -95,7 +95,7 @@ public partial class OsteoHealthContext : DbContext
 
     public virtual DbSet<tipo_enfermedad> tipo_enfermedads { get; set; }
 
-    public virtual DbSet<tipo_enfermedad_hereditarium> tipo_enfermedad_hereditaria { get; set; }
+    public virtual DbSet<tipo_enfermedad_hereditaria> tipo_enfermedad_hereditaria { get; set; }
 
     public virtual DbSet<tipo_estudio> tipo_estudios { get; set; }
 
@@ -177,7 +177,7 @@ public partial class OsteoHealthContext : DbContext
                 .HasConstraintName("alimentacion_idsesion_fkey");
         });
 
-        modelBuilder.Entity<antecedentes_tocoginecologico>(entity =>
+        modelBuilder.Entity<antecedentes_tocoginecologicos>(entity =>
         {
             entity.HasKey(e => e.idantecedetoco).HasName("antecedentes_tocoginecologicos_pkey");
 
@@ -495,7 +495,7 @@ public partial class OsteoHealthContext : DbContext
             entity.HasKey(e => e.idenfermedad).HasName("tipo_enfermedad_pkey");
         });
 
-        modelBuilder.Entity<tipo_enfermedad_hereditarium>(entity =>
+        modelBuilder.Entity<tipo_enfermedad_hereditaria>(entity =>
         {
             entity.HasKey(e => e.idenfermedadhereditaria).HasName("tipo_enfermedad_hereditaria_pkey");
 

@@ -43,18 +43,24 @@ public partial class paciente
 
     public int idobrasocial { get; set; }
 
-    public int idimagen { get; set; }
+    public int? idimagen { get; set; }
 
     public int idubicacion { get; set; }
 
     public int idinformacionadicional { get; set; }
 
-    public int idenfermedadhereditaria { get; set; }
+   // public int idenfermedadhereditaria { get; set; } no va por inconsistencia
 
-    public int idantecedetoco { get; set; }
+    public int? idantecedetoco { get; set; }
+
+    public Guid? idusuario { get; set; }
+
+    [ForeignKey("idusuario")]
+    [InverseProperty("pacientes")]
+    public virtual Usuario idUsuarioNavigation { get; set; }
 
     [InverseProperty("dniNavigation")]
-    public virtual ICollection<antecedentes_tocoginecologico> antecedentes_tocoginecologicos { get; set; } = new List<antecedentes_tocoginecologico>();
+    public virtual ICollection<antecedentes_tocoginecologicos> antecedentes_tocoginecologicos { get; set; } = new List<antecedentes_tocoginecologicos>();
 
     [ForeignKey("idimagen")]
     [InverseProperty("pacientes")]
@@ -80,7 +86,7 @@ public partial class paciente
     public virtual sexo sexoNavigation { get; set; }
 
     [InverseProperty("dniNavigation")]
-    public virtual ICollection<tipo_enfermedad_hereditarium> tipo_enfermedad_hereditaria { get; set; } = new List<tipo_enfermedad_hereditarium>();
+    public virtual ICollection<tipo_enfermedad_hereditaria> tipo_enfermedad_hereditaria { get; set; } = new List<tipo_enfermedad_hereditaria>();
 
     [InverseProperty("idpacienteNavigation")]
     public virtual ICollection<turno> turnos { get; set; } = new List<turno>();

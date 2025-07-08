@@ -129,7 +129,7 @@ namespace Api_OsteoHealth_Tesis.code
                 paciente.idimagen = pacienteActualizado.idimagen;
                 paciente.idubicacion = pacienteActualizado.idubicacion;
                 paciente.idinformacionadicional = pacienteActualizado.idinformacionadicional;
-                paciente.idenfermedadhereditaria = pacienteActualizado.idenfermedadhereditaria;
+               // paciente.idenfermedadhereditaria = pacienteActualizado.idenfermedadhereditaria;
                 paciente.idantecedetoco = pacienteActualizado.idantecedetoco;
 
                 await _context.SaveChangesAsync();
@@ -356,6 +356,48 @@ namespace Api_OsteoHealth_Tesis.code
                 throw;
             }
         }
+        /// <summary>
+        /// Lista los pacientes por usuario logueado
+        /// </summary>
+        /// <param name="idUsuario"></param>
+        /// <returns></returns>
+
+        public async Task<List<paciente>> GetPacientesByUsuario(Guid idUsuario)
+        {
+            try
+            {
+                return await _context.pacientes
+                    .Where(p => p.idusuario == idUsuario)
+                    .ToListAsync();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public async Task<List<PacienteResumenDto>> GetPacientesResumenPorUsuario(Guid idUsuario)
+        {
+            try
+            {
+                return await _context.pacientes
+                    .Where(p => p.idusuario == idUsuario)
+                    .Select(p => new PacienteResumenDto
+                    {
+                        dni = p.dni,
+                        nombre = p.nombre,
+                        apellido = p.apellido,
+                        fechaingreso = p.fechaingreso
+                    })
+                    .ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+
 
     }
 }

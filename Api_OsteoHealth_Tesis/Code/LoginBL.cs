@@ -45,7 +45,7 @@ namespace Api_OsteoHealth_Tesis.Code
             try
             {
                 // Validar configuración JWT
-                var keyString = _configuration["Jwt:Key"];
+                /*  var keyString = _configuration["Jwt:Key"];
                 if (string.IsNullOrEmpty(keyString))
                 {
                     return null;
@@ -56,18 +56,41 @@ namespace Api_OsteoHealth_Tesis.Code
                 if (string.IsNullOrEmpty(issuer) || string.IsNullOrEmpty(audience))
                 {
                     return null;
-                }
+                }*/
+
+                var keyString = _configuration["Jwt:Key"];
+                var issuer = _configuration["Jwt:Issuer"];
+                var audience = _configuration["Jwt:Audience"];
+
+                if (string.IsNullOrEmpty(keyString) || string.IsNullOrEmpty(issuer) || string.IsNullOrEmpty(audience))
+                    return null;
 
                 var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(keyString));
                 var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
+                // Buscar el usuario en base de datos
+                var user = await _context.Usuarios.FindAsync(Guid.Parse(userId));
+                if (user == null) return null;
+
                 // Definir los claims del usuario
                 var claims = new[]
                 {
-                    new Claim(JwtRegisteredClaimNames.Sub, userId.ToString()),
+                    /*new Claim(JwtRegisteredClaimNames.Sub, userId.ToString()),
                     new Claim(ClaimTypes.Role, role),
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                    new Claim(JwtRegisteredClaimNames.Iat, DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString())*/
+
+                    new Claim("idUser", user.IdUsuario.ToString()),
+                    new Claim(ClaimTypes.Name, user.username ?? ""),
+                    new Claim(ClaimTypes.Role, user.Rol ?? role),
+                    new Claim("nombre", user.Nombre ?? ""),
+                    new Claim("apellido", user.Apellido ?? ""),
+                    new Claim("fotoPerfil", user.FotoPerfil ?? ""),
+                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                     new Claim(JwtRegisteredClaimNames.Iat, DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString())
+
+
+
                 };
 
                 // Crear el token JWT

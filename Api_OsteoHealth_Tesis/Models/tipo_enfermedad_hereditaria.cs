@@ -6,7 +6,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Api_OsteoHealth_Tesis.Models;
 
-public partial class tipo_enfermedad_hereditarium
+[Table("tipo_enfermedad_hereditaria")]
+public partial class tipo_enfermedad_hereditaria
 {
     [Key]
     public int idenfermedadhereditaria { get; set; }
