@@ -1,4 +1,4 @@
-﻿namespace Api_OsteoHealth_Tesis.ModelsCustom
+namespace Api_OsteoHealth_Tesis.ModelsCustom
 {
     /// <summary>
     /// Clase para representar un usuario en el sistema.
@@ -10,7 +10,7 @@
         /// </summary>
         public string username { get; set; }
         /// <summary>
-        /// Contraseña del usuario.
+        /// Contrase�a del usuario.
         /// </summary>
         public string password { get; set; }
     }

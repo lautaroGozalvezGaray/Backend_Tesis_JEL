@@ -1,4 +1,4 @@
-ï»¿using Api_OsteoHealth_Tesis.Code;
+using Api_OsteoHealth_Tesis.Code;
 using Api_OsteoHealth_Tesis.Models;
 using Api_OsteoHealth_Tesis.ModelsCustom;
 using Api_OsteoHealth_Tesis.Repository;
@@ -20,8 +20,8 @@ namespace Api_OsteoHealth_Tesis.Controllers
 
         private readonly ILoginBL _loginBL;
         /// <summary>
-        /// El constructor del controlador recibe una instancia de PacienteBL a travÃ©s de la inyecciÃ³n de dependencias. 
-        /// Esto permite que el controlador utilice los mÃ©todos de PacienteBL para realizar operaciones como obtener,
+        /// El constructor del controlador recibe una instancia de PacienteBL a través de la inyección de dependencias. 
+        /// Esto permite que el controlador utilice los métodos de PacienteBL para realizar operaciones como obtener,
         /// insertar, actualizar y eliminar pacientes.
         /// </summary>
         public LoginController(ILoginBL loginBL)

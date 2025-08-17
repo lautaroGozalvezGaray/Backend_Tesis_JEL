@@ -1,16 +1,16 @@
-ï»¿namespace Api_OsteoHealth_Tesis.ModelsCustom
+namespace Api_OsteoHealth_Tesis.ModelsCustom
 {
     /// <summary>
-    /// Clase para representar un mÃ©todo anticonceptivo.
+    /// Clase para representar un método anticonceptivo.
     /// </summary>
     public class MetodoAnticonceptivoDto
     {
         /// <summary>
-        /// Identificador Ãºnico del mÃ©todo anticonceptivo.
+        /// Identificador único del método anticonceptivo.
         /// </summary>
         public int idmetodo { get; set; }
         /// <summary>
-        /// Nombre del mÃ©todo anticonceptivo.
+        /// Nombre del método anticonceptivo.
         /// </summary>
         public string nombre { get; set; }
     }

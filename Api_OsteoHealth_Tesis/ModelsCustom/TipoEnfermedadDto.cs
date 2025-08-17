@@ -1,4 +1,4 @@
-﻿namespace Api_OsteoHealth_Tesis.ModelsCustom
+namespace Api_OsteoHealth_Tesis.ModelsCustom
 {
     /// <summary>
     /// Clase para representar un tipo de enfermedad.
@@ -6,7 +6,7 @@
     public class TipoEnfermedadDto
     {
         /// <summary>
-        /// Identificador único del tipo de enfermedad.
+        /// Identificador �nico del tipo de enfermedad.
         /// </summary>
         public int idenfermedad { get; set; }
         /// <summary>

@@ -1,4 +1,4 @@
-﻿using Api_OsteoHealth_Tesis.Models;
+using Api_OsteoHealth_Tesis.Models;
 using Api_OsteoHealth_Tesis.ModelsCustom;
 using System.Collections.Generic;
 using System.Threading.Tasks;

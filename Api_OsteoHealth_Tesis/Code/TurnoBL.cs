@@ -1,4 +1,4 @@
-ï»¿using Api_OsteoHealth_Tesis.Models;
+using Api_OsteoHealth_Tesis.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System;
@@ -53,7 +53,7 @@ namespace Api_OsteoHealth_Tesis.Code
 
 
         /// <summary>
-        /// Agrega un turno si no hay superposiciÃ³n de horario (Â±15 min)
+        /// Agrega un turno si no hay superposición de horario (±15 min)
         /// </summary>
         /// <param name="nuevoTurno"></param>
         /// <returns>Id del turno agregado o -1 si hay conflicto</returns>
@@ -62,7 +62,7 @@ namespace Api_OsteoHealth_Tesis.Code
             DateOnly fechaTurno = nuevoTurno.fecha;
             TimeOnly horaTurno = nuevoTurno.hora;
 
-            // Definir margen de Â±15 minutos
+            // Definir margen de ±15 minutos
             TimeSpan margen = TimeSpan.FromMinutes(15);
             TimeOnly horaDesde = horaTurno.AddMinutes(-15);
             TimeOnly horaHasta = horaTurno.AddMinutes(15);
@@ -76,7 +76,7 @@ namespace Api_OsteoHealth_Tesis.Code
             );
 
             if (existeSolapamiento)
-                return -1; // CÃ³digo especial para indicar conflicto de horario
+                return -1; // Código especial para indicar conflicto de horario
 
             // Si no hay solapamiento, agregar el nuevo turno
             var turno = new turno

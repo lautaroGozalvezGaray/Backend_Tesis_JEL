@@ -1,4 +1,4 @@
-Ôªøusing Api_OsteoHealth_Tesis.code;
+using Api_OsteoHealth_Tesis.code;
 using Api_OsteoHealth_Tesis.Models;
 using Api_OsteoHealth_Tesis.ModelsCustom;
 using Api_OsteoHealth_Tesis.Repository;
@@ -22,8 +22,8 @@ namespace Api_OsteoHealth_Tesis.Controllers
     {
         private readonly IPacienteBL _pacienteBL;
         /// <summary>
-        /// El constructor del controlador recibe una instancia de PacienteBL a trav√©s de la inyecci√≥n de dependencias. 
-        /// Esto permite que el controlador utilice los m√©todos de PacienteBL para realizar operaciones como obtener,
+        /// El constructor del controlador recibe una instancia de PacienteBL a travÈs de la inyecciÛn de dependencias. 
+        /// Esto permite que el controlador utilice los mÈtodos de PacienteBL para realizar operaciones como obtener,
         /// insertar, actualizar y eliminar pacientes.
         /// </summary>
         public PacienteController(IPacienteBL pacienteBL)
@@ -102,7 +102,7 @@ namespace Api_OsteoHealth_Tesis.Controllers
             try
             {
                 if (nuevoPaciente == null)
-                    return BadRequest("Los datos del paciente son inv√°lidos.");
+                    return BadRequest("Los datos del paciente son inv·lidos.");
 
                 var pacienteInsertado = await _pacienteBL.InsertarPacienteNuevo(nuevoPaciente);
                 return CreatedAtAction(nameof(GetPacienteById), new { id = pacienteInsertado.dni }, pacienteInsertado);
@@ -120,7 +120,7 @@ namespace Api_OsteoHealth_Tesis.Controllers
         /// </summary>
         /// <param name="id">ID del paciente a actualizar</param>
         /// <param name="pacienteActualizado">Datos actualizados del paciente</param>
-        /// <returns>Mensaje de estado de la actualizaci√≥n</returns>
+        /// <returns>Mensaje de estado de la actualizaciÛn</returns>
         [HttpPut("{id}")]
         public async Task<ActionResult<string>> ActualizarPaciente(int id, paciente pacienteActualizado)
         {
@@ -142,7 +142,7 @@ namespace Api_OsteoHealth_Tesis.Controllers
         /// Endpoint para eliminar un paciente por su DNI
         /// </summary>
         /// <param name="dni">DNI del paciente a eliminar</param>
-        /// <returns>Mensaje de estado de la eliminaci√≥n</returns>
+        /// <returns>Mensaje de estado de la eliminaciÛn</returns>
         [HttpDelete("{dni}")]
         public async Task<ActionResult<string>> EliminarPacientePorDni(int dni)
         {
@@ -284,7 +284,7 @@ namespace Api_OsteoHealth_Tesis.Controllers
         }
 
         /// <summary>
-        /// Endpoint para agregar un nuevo m√©todo anticonceptivo
+        /// Endpoint para agregar un nuevo mÈtodo anticonceptivo
         /// </summary>
         [HttpPost("AgregarMetodoAnticonceptivo")]
         public async Task<IActionResult> PostMetodoAnticonceptivo([FromBody] MetodoAnticonceptivoDto dto)
@@ -292,7 +292,7 @@ namespace Api_OsteoHealth_Tesis.Controllers
             try
             {
                 await _pacienteBL.AgregarMetodoAnticonceptivo(dto);
-                return Ok("M√©todo anticonceptivo agregado correctamente.");
+                return Ok("MÈtodo anticonceptivo agregado correctamente.");
             }
             catch (Exception ex)
             {

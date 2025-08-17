@@ -1,4 +1,4 @@
-﻿namespace Api_OsteoHealth_Tesis.ModelsCustom
+namespace Api_OsteoHealth_Tesis.ModelsCustom
 {
     /// <summary>
     /// Clase para representar un parentezco.
@@ -6,7 +6,7 @@
     public class ParentezcoDto
     {
         /// <summary>
-        /// Identificador único del parentezco.
+        /// Identificador �nico del parentezco.
         /// </summary>
         public int idparentezco { get; set; }
         /// <summary>

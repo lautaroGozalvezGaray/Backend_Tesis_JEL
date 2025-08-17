@@ -6,6 +6,8 @@
     <ImplicitUsings>disable</ImplicitUsings>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <DocumentationFile></DocumentationFile>
+	  <GenerateDocumentationFile>true</GenerateDocumentationFile>
+	  <NoWarn>$(NoWarn);1591</NoWarn> <!-- opcional: silencia warnings de comentarios faltantes -->
   </PropertyGroup>
 
   <ItemGroup>
