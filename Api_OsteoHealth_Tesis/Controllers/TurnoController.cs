@@ -1,4 +1,4 @@
-ï»¿using Api_OsteoHealth_Tesis.Code;
+using Api_OsteoHealth_Tesis.Code;
 using Api_OsteoHealth_Tesis.Models;
 using Api_OsteoHealth_Tesis.ModelsCustom;
 using Api_OsteoHealth_Tesis.Repository;
@@ -23,7 +23,7 @@ namespace Api_OsteoHealth_Tesis.Controllers
         private readonly ITurnoBL _turnoBL;
 
         /// <summary>
-        /// El constructor del controlador recibe una instancia de PacienteBL a travÃ©s de la inyecciÃ³n de dependencias.
+        /// El constructor del controlador recibe una instancia de PacienteBL a través de la inyección de dependencias.
         /// </summary>
         /// <param name="turnoBL"></param>
         public TurnoController(ITurnoBL turnoBL)

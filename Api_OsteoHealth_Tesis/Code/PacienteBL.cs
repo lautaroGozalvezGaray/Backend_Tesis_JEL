@@ -1,4 +1,4 @@
-﻿using Api_OsteoHealth_Tesis.Models;
+using Api_OsteoHealth_Tesis.Models;
 using Api_OsteoHealth_Tesis.ModelsCustom;
 using Api_OsteoHealth_Tesis.Repository;
 using Microsoft.AspNetCore.Mvc;
@@ -20,7 +20,7 @@ namespace Api_OsteoHealth_Tesis.code
         private readonly OsteoHealthContext _context;
 
         /// <summary>
-        /// Este es un constructor de la clase LoginController que utiliza inyección de dependencias 
+        /// Este es un constructor de la clase LoginController que utiliza inyecci�n de dependencias 
         /// para recibir una instancia de DbOsteoHealthContext, 
         /// que es el contexto de Entity Framework Core configurado para tu base de datos.
         /// </summary>

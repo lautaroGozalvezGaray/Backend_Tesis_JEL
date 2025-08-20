@@ -1,4 +1,4 @@
-ï»¿using System;
+using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,6 +10,15 @@ public partial class OsteoHealthContext : DbContext
         : base(options)
     {
     }
+
+    // En OsteoHealthContext.cs
+    protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
+    {
+        // Cualquier DateTimeOffset se mapea a timestamptz
+        configurationBuilder.Properties<DateTimeOffset>()
+            .HaveColumnType("timestamp with time zone");
+    }
+
 
     public virtual DbSet<Usuario> Usuarios { get; set; }
 
@@ -76,6 +85,10 @@ public partial class OsteoHealthContext : DbContext
     public virtual DbSet<sentadilla> sentadillas { get; set; }
 
     public virtual DbSet<sesion> sesions { get; set; }
+
+    public DbSet<SesionDraft> SesionDrafts { get; set; }
+
+    public DbSet<SesionRaw> SesionesRaw { get; set; }
 
     public virtual DbSet<sexo> sexos { get; set; }
 
@@ -444,6 +457,51 @@ public partial class OsteoHealthContext : DbContext
             entity.HasOne(d => d.idsuenoNavigation).WithMany(p => p.sesions)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("sesion_idsueno_fkey");
+        });
+
+        modelBuilder.Entity<SesionDraft>(e =>
+        {
+            e.ToTable("sesion_drafts");
+
+            // Clave primaria (ya tenés [Key], pero lo dejo explícito)
+            e.HasKey(x => x.id);
+
+            // Mapeo columnas
+            e.Property(x => x.id).HasColumnName("id");
+            e.Property(x => x.SesionId).HasColumnName("sesionid");
+            e.Property(x => x.Step).HasColumnName("step");
+            e.Property(x => x.DataJson)
+                .HasColumnName("datajson")
+                .HasColumnType("text"); // si algún día migrás a jsonb, cambiá a "jsonb"
+            e.Property(x => x.UpdatedAt)
+                .HasColumnName("updatedat")
+                .HasColumnType("timestamp with time zone");
+
+            // ÍNDICE ÚNICO compuesto: un solo draft por (SesionId, Step)
+            e.HasIndex(x => new { x.SesionId, x.Step })
+             .IsUnique()
+             .HasDatabaseName("ix_sesion_drafts_sesionid_step");
+
+            // (Opcional) índices auxiliares útiles para queries
+            e.HasIndex(x => x.SesionId).HasDatabaseName("ix_sesion_drafts_sesionid");
+            e.HasIndex(x => x.UpdatedAt).HasDatabaseName("ix_sesion_drafts_updatedat");
+
+            // (Opcional) clave alterna si después querés usar (SesionId, Step) como principal en relaciones
+            // e.HasAlternateKey(x => new { x.SesionId, x.Step })
+            //  .HasName("ak_sesion_drafts_sesionid_step");
+        });
+
+
+
+        // SesionRaw probablemente quedó con columnas PascalCase ("Id","CreatedAt"...),
+        // así que no mapees aquí a minúsculas. Solo fija el tipo del JSON si querés:
+        modelBuilder.Entity<SesionRaw>(entity =>
+        {
+            entity.ToTable("sesiones_raw");
+            entity.HasKey(e => e.id);
+            entity.Property(x => x.payloadjson)
+            .HasColumnType("jsonb"); // obliga a EF/Npgsql a tratarlo como JSONB
+            // No toques CreatedAt/Id si ya existen como "CreatedAt"/"Id" en la DB
         });
 
         modelBuilder.Entity<sexo>(entity =>

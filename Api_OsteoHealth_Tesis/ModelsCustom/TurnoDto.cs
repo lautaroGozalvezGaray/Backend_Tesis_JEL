@@ -1,4 +1,4 @@
-ï»¿using System;
+using System;
 
 namespace Api_OsteoHealth_Tesis.ModelsCustom
 {
@@ -23,7 +23,7 @@ namespace Api_OsteoHealth_Tesis.ModelsCustom
         public TimeOnly hora { get; set; }
 
         /// <summary>
-        /// DuraciÃ³n del turno en minutos
+        /// Duración del turno en minutos
         /// </summary>
         public int? duracionminutos { get; set; }
 
@@ -38,7 +38,7 @@ namespace Api_OsteoHealth_Tesis.ModelsCustom
         public string observaciones { get; set; }
 
         /// <summary>
-        /// Identificador del usuario que creÃ³ el turno
+        /// Identificador del usuario que creó el turno
         /// </summary>
         public Guid idusuario { get; set; }
 

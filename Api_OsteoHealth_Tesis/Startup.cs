@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -49,7 +49,7 @@ namespace Api_OsteoHealth_Tesis
         public void ConfigureServices(IServiceCollection services)
         {
 
-            // Configura ApplicationDbContext usando la cadena de conexión en appsettings.json
+            // Configura ApplicationDbContext usando la cadena de conexi�n en appsettings.json
             var connectionString = Environment.GetEnvironmentVariable("ConexionSQL");
 
             services.AddDbContext<OsteoHealthContext>(options =>
@@ -59,9 +59,10 @@ namespace Api_OsteoHealth_Tesis
             services.AddApiVersioning(o => o.ReportApiVersions = true);
             services.AddCors();
 
-            services.AddControllersWithViews()
-                .AddJsonOptions(options =>
+            services.AddControllers()
+            .AddJsonOptions(options =>
                 options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
+
 
             //services.AddScoped<IPacienteBL, PacienteBL>();
             //services.AddScoped<ILoginBL, LoginBL>();
@@ -73,17 +74,18 @@ namespace Api_OsteoHealth_Tesis
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("1.0", new OpenApiInfo
-                {
-                    Title = "Api OsteoHealth",
-                    Version = "1.0"
-                });
+                c.SwaggerDoc("1.0", new OpenApiInfo { Title = "Api OsteoHealth", Version = "1.0" });
 
+                // ?? Esquema ID estable: nombre completo y sin '+'
+                c.CustomSchemaIds(t => (t.FullName ?? t.Name).Replace("+", "."));
+
+                // Solo incluir XML si existe
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-                c.IncludeXmlComments(xmlPath);
+                if (File.Exists(xmlPath))
+                    c.IncludeXmlComments(xmlPath);
 
-                // 🔐 Autenticación JWT para Swagger
+                // JWT como ya ten�as
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
                     Name = "Authorization",
@@ -93,22 +95,13 @@ namespace Api_OsteoHealth_Tesis
                     In = ParameterLocation.Header,
                     Description = "Ingrese el token JWT como: Bearer {token}"
                 });
-
                 c.AddSecurityRequirement(new OpenApiSecurityRequirement
                 {
-                    {
-                        new OpenApiSecurityScheme
-                        {
-                            Reference = new OpenApiReference
-                            {
-                                Type = ReferenceType.SecurityScheme,
-                                Id = "Bearer"
-                            }
-                        },
-                        Array.Empty<string>()
-                    }
+                    { new OpenApiSecurityScheme { Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "Bearer" } }, Array.Empty<string>() }
                 });
             });
+
+
 
 
 
@@ -153,7 +146,7 @@ namespace Api_OsteoHealth_Tesis
                 app.UseHsts();
             }
 
-            // Confirmar conexión a la base de datos
+            // Confirmar conexi�n a la base de datos
             try
             {
                 using (var scope = serviceProvider.CreateScope())
@@ -162,25 +155,25 @@ namespace Api_OsteoHealth_Tesis
                     try
                     {
                         db.Database.GetDbConnection().Open();
-                        Console.WriteLine("✅ Conexión a la base de datos establecida correctamente.");
+                        Console.WriteLine("? Conexi�n a la base de datos establecida correctamente.");
                     }
                     catch (Exception innerEx)
                     {
-                        Console.WriteLine("❌ Error al intentar conectar con la base de datos:");
-                        Console.WriteLine($"   📄 Mensaje: {innerEx.Message}");
+                        Console.WriteLine("? Error al intentar conectar con la base de datos:");
+                        Console.WriteLine($"   ?? Mensaje: {innerEx.Message}");
 
                         if (innerEx.InnerException != null)
                         {
-                            Console.WriteLine($"   🔍 InnerException: {innerEx.InnerException.Message}");
+                            Console.WriteLine($"   ?? InnerException: {innerEx.InnerException.Message}");
                         }
 
-                        Console.WriteLine($"   🧵 StackTrace: {innerEx.StackTrace}");
+                        Console.WriteLine($"   ?? StackTrace: {innerEx.StackTrace}");
                     }
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"❌ Error general: {ex.Message}");
+                Console.WriteLine($"? Error general: {ex.Message}");
             }
 
 
@@ -208,7 +201,7 @@ namespace Api_OsteoHealth_Tesis
             // Obtiene el ensamblado actual
             var assembly = Assembly.GetExecutingAssembly();
 
-            // Filtra todas las clases públicas que implementan una interfaz
+            // Filtra todas las clases p�blicas que implementan una interfaz
             var typesWithInterfaces = assembly.GetTypes()
                 .Where(type => type.IsClass && !type.IsAbstract)
                 .Select(type => new
