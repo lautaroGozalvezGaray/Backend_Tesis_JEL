@@ -299,6 +299,54 @@ namespace Api_OsteoHealth_Tesis.Controllers
                 return StatusCode(500, $"{ex.Message}");
             }
         }
+        /// <summary>
+        /// Endpoint para obtener pacientes por usuario autenticado
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("PorUsuario")]
+        public async Task<ActionResult<List<paciente>>> GetPacientesByUsuario()
+        {
+            try
+            {
+                var idUsuarioClaim = User.FindFirst("idUser")?.Value;
+
+                if (idUsuarioClaim == null || !Guid.TryParse(idUsuarioClaim, out var idUsuario))
+                    return Unauthorized("Token inválido o sin ID de usuario");
+
+                var pacientes = await _pacienteBL.GetPacientesByUsuario(idUsuario);
+                return Ok(pacientes);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+        /// <summary>
+        ///   Endpoint para obtener dni, nombre, apellido y fecha de alta de pacientes por usuario autenticado
+        /// </summary>
+        /// <returns></returns>
+
+        [HttpGet("Resumen")]
+        public async Task<ActionResult<List<PacienteResumenDto>>> GetPacientesResumen()
+        {
+            try
+            {
+                var idUsuarioClaim = User.FindFirst("idUser")?.Value;
+
+                if (string.IsNullOrEmpty(idUsuarioClaim))
+                    return Unauthorized("No se encontró el id de usuario en el token.");
+
+                var idUsuario = Guid.Parse(idUsuarioClaim);
+
+                var pacientes = await _pacienteBL.GetPacientesResumenPorUsuario(idUsuario);
+                return Ok(pacientes);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"{ex.Message}");
+            }
+        }
+
 
     }
 }

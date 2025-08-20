@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Api_OsteoHealth_Tesis.Models;
 
+[Table("Usuarios")]
 [Index("username", Name = "users_email_key", IsUnique = true)]
 public partial class Usuario
 {
@@ -21,6 +22,19 @@ public partial class Usuario
     [Column(TypeName = "character varying")]
     public string Rol { get; set; }
 
+    [Column(TypeName = "character varying")]
+    public string Nombre { get; set; }
+
+    [Column(TypeName = "character varying")]
+    public string Apellido { get; set; }
+
+    [Column(TypeName = "character varying")]
+    public string FotoPerfil { get; set; }
+
+
     [InverseProperty("idusuarioNavigation")]
     public virtual ICollection<turno> turnos { get; set; } = new List<turno>();
+    
+    [InverseProperty("idUsuarioNavigation")]
+    public virtual ICollection<paciente> pacientes { get; set; } = new List<paciente>();
 }

@@ -6,7 +6,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Api_OsteoHealth_Tesis.Models;
 
-public partial class antecedentes_tocoginecologico
+[Table("antecedentes_tocoginecologicos")]
+public partial class antecedentes_tocoginecologicos
 {
     [Key]
     public int idantecedetoco { get; set; }
@@ -23,7 +24,7 @@ public partial class antecedentes_tocoginecologico
 
     public short? menopausia { get; set; }
 
-    public int idmetodo { get; set; }
+    public int? idmetodo { get; set; }
 
     [ForeignKey("dni")]
     [InverseProperty("antecedentes_tocoginecologicos")]

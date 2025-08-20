@@ -3,8 +3,10 @@ using Api_OsteoHealth_Tesis.Models;
 using Api_OsteoHealth_Tesis.ModelsCustom;
 using Api_OsteoHealth_Tesis.Repository;
 using Asp.Versioning;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace Api_OsteoHealth_Tesis.Controllers
@@ -50,6 +52,51 @@ namespace Api_OsteoHealth_Tesis.Controllers
             }
 
             return Unauthorized(new { message = "Credenciales incorrectas." });
+        }
+
+        [Authorize]
+        [HttpGet("Profile")]
+
+        public async Task<IActionResult> GetUserProfileAsync()
+        {
+           /* var userId = User.FindFirst("idUser")?.Value;
+            var username = User.FindFirst(ClaimTypes.Name)?.Value;
+            var role = User.FindFirst(ClaimTypes.Role)?.Value;
+
+            if (userId != null )
+            {
+                return Ok(new
+                {
+                    UserId = userId,
+                    Username = username,
+                    Role = role
+                });
+            }
+
+            return NotFound("Usuario no encontrado");*/
+
+
+
+
+            var idUsuario = User.FindFirst("idUser")?.Value;
+            var username = User.FindFirst(ClaimTypes.Name)?.Value;
+            var nombre = User.FindFirst("nombre")?.Value;
+            var apellido = User.FindFirst("apellido")?.Value;
+            var rol = User.FindFirst(ClaimTypes.Role)?.Value;
+            var foto = User.FindFirst("fotoPerfil")?.Value;
+
+            if (string.IsNullOrEmpty(idUsuario))
+                return NotFound("Usuario no encontrado.");
+
+            return Ok(new
+            {
+                IdUsuario = idUsuario,
+                Username = username,
+                Nombre = nombre,
+                Apellido = apellido,
+                Rol = rol,
+                FotoPerfil = foto
+            });
         }
 
     }

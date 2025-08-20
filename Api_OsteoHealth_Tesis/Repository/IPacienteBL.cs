@@ -1,5 +1,6 @@
 ﻿using Api_OsteoHealth_Tesis.Models;
 using Api_OsteoHealth_Tesis.ModelsCustom;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -24,5 +25,8 @@ namespace Api_OsteoHealth_Tesis.Repository
         Task AgregarParentezco(ParentezcoDto dto);
         Task AgregarMetodoAnticonceptivo(MetodoAnticonceptivoDto dto);
         Task AgregarObraSocial(ObraSocialDto dto);
+        Task<List<paciente>> GetPacientesByUsuario(Guid idUsuario);
+        Task<List<PacienteResumenDto>> GetPacientesResumenPorUsuario(Guid idUsuario);
+
     }
 }
