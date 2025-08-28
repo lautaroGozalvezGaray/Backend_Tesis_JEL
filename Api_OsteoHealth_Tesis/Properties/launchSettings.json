@@ -13,7 +13,8 @@
       "launchUrl": "swagger",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
-        "ConexionSQL": "Host=ep-icy-art-a28haw1t-pooler.eu-central-1.aws.neon.tech;Database=OsteoHelth;Username=neondb_owner;Password=npg_Nfv6l1BCGwsQ;SSL Mode=Require;Trust Server Certificate=true"
+        "ConexionSQL": "Host=ep-billowing-scene-ack3psj6-pooler.sa-east-1.aws.neon.tech;Database=neondb;Username=neondb_owner;Password=npg_82dASlXijvzr;SSL Mode=Require;Trust Server Certificate=true"
+        //"ConexionSQL": "Host=ep-icy-art-a28haw1t-pooler.eu-central-1.aws.neon.tech;Database=OsteoHelth;Username=neondb_owner;Password=npg_Nfv6l1BCGwsQ;SSL Mode=Require;Trust Server Certificate=true"
       }
     }
   },
